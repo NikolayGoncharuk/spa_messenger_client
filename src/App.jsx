@@ -33,7 +33,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, { getUserData })(function App(props) {
   const classes = useStyles();
   let theme = responsiveFontSizes(makeTheme(props.theme));
-  const { isAuth, isFetching } = props.auth;
+  const { isAuth, isFetching, user } = props.auth;
 
   React.useEffect(() => {
     props.getUserData();
@@ -47,7 +47,7 @@ export default connect(mapStateToProps, { getUserData })(function App(props) {
         </div>
       );
     };
-    if (isAuth) {
+    if (isAuth && user) {
       return (
         <Switch>
           <Route path="/chat" render={() => <Messenger />} />
