@@ -1,30 +1,23 @@
 import { authApi } from '../../services/api/api';
 
 const SET_IS_AUTH = 'SET_IS_AUTH';
-const SET_PROFILE_DATA = 'SET_PROFILE_DATA';
+const SET_IS_FETCHING = 'SET_IS_FETCHING';
+const SET_USER = 'SET_USER';
 
 const initialState = {
   isAuth: false,
-  userId: null,
-  firstName: null,
-  lastName: null,
-  avatar: null,
-  email: null,
+  isFetching: false,
+  user: null,
 };
 
 const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_IS_AUTH:
       return { ...state, isAuth: action.isAuth };
-    case SET_PROFILE_DATA:
-      return {
-        ...state,
-        userId: action.user._id,
-        firstName: action.user.firstName,
-        lastName: action.user.lastName,
-        avatar: null,
-        email: action.user.email,
-      };
+    case SET_IS_FETCHING:
+      return { ...state, isFetching: action.isFetching };
+    case SET_USER:
+      return { ...state, user: action.user };
     default:
       return state;
   };
@@ -35,9 +28,11 @@ const usersReducer = (state = initialState, action) => {
 const setIsAuth = (isAuth) => {
   return { type: SET_IS_AUTH, isAuth };
 };
-
-const setProfileData = (user) => {
-  return { type: SET_PROFILE_DATA, user };
+const setIsFetching = (isFetching) => {
+  return { type: SET_IS_FETCHING, isFetching };
+};
+const setUser = (user) => {
+  return { type: SET_USER, user };
 };
 
 // Thunk Creators
@@ -62,14 +57,17 @@ export const login = (data) => (dispatch) => {
 export const logout = () => (dispatch) => {
   localStorage.removeItem('token');
   dispatch(setIsAuth(false));
+  dispatch(setUser(null));
 };
 
-export const getProfileData = () => (dispatch) => {
+export const getUserData = () => (dispatch) => {
   if (localStorage.token) {
-    authApi.getProfileData().then(data => {
+    dispatch(setIsFetching(true));
+    authApi.getUserData().then(data => {
+      dispatch(setIsFetching(false));
       if (data.resultCode === 1) {
         dispatch(setIsAuth(true));
-        dispatch(setProfileData(data.user));
+        dispatch(setUser(data.user));
       } else {
         logout()(dispatch);
       };

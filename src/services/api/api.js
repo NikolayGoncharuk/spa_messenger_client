@@ -9,7 +9,7 @@ export const authApi = {
   postLoginData(data) {
     return axios.post(`${baseURL}/auth/login`, { ...data }).then(response => response.data);
   },
-  getProfileData() {
+  getUserData() {
     return axios.get(`${baseURL}/auth/profile`, {
       headers: { 'Authorization': localStorage.token }
     }).then(response => response.data);

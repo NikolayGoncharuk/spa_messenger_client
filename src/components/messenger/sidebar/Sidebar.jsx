@@ -42,7 +42,7 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { logout })(function Menu(props) {
-  const { isAuth, firstName, lastName, avatar, email } = props.auth;
+  const { isAuth, user: { firstName, lastName, avatar, email } } = props.auth;
   const classes = useStyles();
 
   return (

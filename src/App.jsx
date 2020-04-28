@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { getProfileData } from './store/reducers/authReducer';
+import { getUserData } from './store/reducers/authReducer';
 // Styles
 import { ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -30,24 +30,24 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getProfileData })(function App(props) {
+export default connect(mapStateToProps, { getUserData })(function App(props) {
   const classes = useStyles();
   let theme = responsiveFontSizes(makeTheme(props.theme));
-  const { isAuth } = props.auth;
+  const { isAuth, isFetching } = props.auth;
 
   React.useEffect(() => {
-    props.getProfileData();
+    props.getUserData();
   }, [isAuth]);
 
-  function Main() {
-    if (!isAuth && !localStorage.token) {
+  function setRoutes() {
+    if (isFetching) {
       return (
-        <Switch>
-          <Route exact path="/" render={() => <StartPage />} />
-          <Redirect to="/" />
-        </Switch>
+        <div className={classes.circularProgressWrapper}>
+          <CircularProgress color="inherit" className={classes.circularProgress} />
+        </div>
       );
-    } else if (isAuth && localStorage.token) {
+    };
+    if (isAuth) {
       return (
         <Switch>
           <Route path="/chat" render={() => <Messenger />} />
@@ -56,9 +56,10 @@ export default connect(mapStateToProps, { getProfileData })(function App(props) 
       );
     } else {
       return (
-        <div className={classes.circularProgressWrapper}>
-          <CircularProgress color="inherit" className={classes.circularProgress} />
-        </div>
+        <Switch>
+          <Route exact path="/" render={() => <StartPage />} />
+          <Redirect to="/" />
+        </Switch>
       );
     };
   };
@@ -66,7 +67,7 @@ export default connect(mapStateToProps, { getProfileData })(function App(props) 
   return (
     <ThemeProvider theme={theme} >
       <CssBaseline />
-      <Main />
+      {setRoutes()}
     </ThemeProvider >
   );
 });
