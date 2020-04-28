@@ -82,7 +82,7 @@ export default reduxForm({ form: 'LoginForm' })(function LoginForm(props) {
               <Field
                 name="rememberMe"
                 component={renderCheckbox}
-                color="primary"
+                color="default"
               />
             }
             label={<Typography color="textSecondary" variant="caption">Запомнить меня</Typography>}

@@ -22,11 +22,13 @@ export default function ChatField() {
 
   React.useEffect(() => {
     function getChatFieldWidth() {
-      return (Math.max(
-        chatFieldRef.current.scrollWidth,
-        chatFieldRef.current.offsetWidth,
-        chatFieldRef.current.clientWidth,
-      ));
+      if (chatFieldRef.current) {
+        return (Math.max(
+          chatFieldRef.current.scrollWidth,
+          chatFieldRef.current.offsetWidth,
+          chatFieldRef.current.clientWidth,
+        ));
+      };
     };
     setChatFieldWidth(getChatFieldWidth());
     window.addEventListener('resize', () => {

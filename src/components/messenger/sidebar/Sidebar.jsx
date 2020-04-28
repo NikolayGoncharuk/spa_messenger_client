@@ -1,16 +1,22 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { logout } from '../../../store/reducers/authReducer';
+// Styles
 import { makeStyles } from '@material-ui/core/styles';
-import { List, ListItem, ListItemAvatar, ListItemIcon, ListItemText } from '@material-ui/core';
-import { Avatar, Divider } from '@material-ui/core';
+// Icons
 import GroupIcon from '@material-ui/icons/Group';
 import LockIcon from '@material-ui/icons/Lock';
-import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
-import ContactsIcon from '@material-ui/icons/Contacts';
+import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
+import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import HelpIcon from '@material-ui/icons/Help';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+// Styled Components
 import StyledBadge from '../../../styles/styled-components/StyledBadge';
+import { List, ListItem, ListItemAvatar, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Avatar, Divider } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   profileData: {
@@ -29,7 +35,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Menu(props) {
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps, { logout })(function Menu(props) {
+  const { isAuth, firstName, lastName, avatar, email } = props.auth;
   const classes = useStyles();
 
   return (
@@ -38,23 +51,23 @@ export default function Menu(props) {
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
             <StyledBadge
-              invisible={false}
+              invisible={!isAuth}
               overlap="circle"
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right', }}
               variant="dot"
             >
-              <Avatar className={classes.profileAvatar} alt="Николай Всеволодович" src="https://lifehacker.ru/special/asus-zenfone/assets/i/main/cutted/1.jpg" />
+              <Avatar className={classes.profileAvatar} alt={`${firstName} ${lastName}`} src={avatar} />
             </StyledBadge>
           </ListItemAvatar>
           <ListItemText
             className={classes.profileData}
-            primary="Николай Всеволодович"
+            primary={`${firstName} ${lastName}`}
             primaryTypographyProps={{
               variant: 'h6',
               className: classes.profileName,
               gutterBottom: true,
             }}
-            secondary="+7 (914) 548-34-84"
+            secondary={email}
             secondaryTypographyProps={{
               noWrap: true,
               color: "textSecondary",
@@ -74,11 +87,11 @@ export default function Menu(props) {
           <ListItemText primary="Создать секретный чат" />
         </ListItem>
         <ListItem button>
-          <ListItemIcon><SpeakerNotesIcon /></ListItemIcon>
+          <ListItemIcon><RecordVoiceOverIcon /></ListItemIcon>
           <ListItemText primary="Создать канал" />
         </ListItem>
         <ListItem button>
-          <ListItemIcon><ContactsIcon /></ListItemIcon>
+          <ListItemIcon><PermContactCalendarIcon /></ListItemIcon>
           <ListItemText primary="Контакты" />
         </ListItem>
         <ListItem button>
@@ -88,6 +101,10 @@ export default function Menu(props) {
         <ListItem button>
           <ListItemIcon><SettingsIcon /></ListItemIcon>
           <ListItemText primary="Настройки" />
+        </ListItem>
+        <ListItem button onClick={props.logout}>
+          <ListItemIcon><MeetingRoomIcon /></ListItemIcon>
+          <ListItemText primary="Выйти" />
         </ListItem>
       </List>
       <Divider />
@@ -103,7 +120,7 @@ export default function Menu(props) {
       </List>
     </div>
   );
-};
+});
 
 /*<div className={classes.profileData}>
   <Avatar className={classes.profileAvatar} alt="Николай Гончарук" src="https://lifehacker.ru/special/asus-zenfone/assets/i/main/cutted/1.jpg" />

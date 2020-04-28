@@ -2,7 +2,6 @@ import React from 'react';
 import { Input, Checkbox, FormHelperText } from '@material-ui/core';
 
 export const renderInput = (props) => {
-  debugger
   const { input, meta, helperText, ...other } = props;
   const hasError = meta.touched && meta.error;
   return (

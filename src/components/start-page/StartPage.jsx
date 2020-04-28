@@ -1,4 +1,6 @@
 import React from 'react';
+import { login, register } from '../../store/reducers/authReducer';
+import { connect } from 'react-redux';
 //Components
 import LoginForm from './forms/LoginForm';
 import RegisterForm from './forms/RegisterForm';
@@ -35,16 +37,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function StartPage() {
+export default connect(null, { login, register })(function StartPage(props) {
   const classes = useStyles();
   const [formShow, setFormShow] = React.useState('LoginForm');
 
-  const onSubmitLoginForm = (formData) => {
-    console.log(formData);
+  const onSubmitLoginForm = (data) => {
+    props.login(data);
   };
 
-  const onSubmitRegisterForm = (formData) => {
-    console.log(formData);
+  const onSubmitRegisterForm = (data) => {
+    props.register(data);
   };
 
   const formParams = {
@@ -83,4 +85,4 @@ export default function StartPage() {
       </div>
     </div>
   );
-};
+});

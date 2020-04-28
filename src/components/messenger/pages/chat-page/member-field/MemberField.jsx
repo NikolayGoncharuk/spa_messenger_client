@@ -62,11 +62,13 @@ export default connect(mapStateToProps, {})(function MemberField() {
 
   React.useEffect(() => {
     function getDialogsRefWidth() {
-      return (Math.max(
-        dialogsRef.current.scrollWidth,
-        dialogsRef.current.offsetWidth,
-        dialogsRef.current.clientWidth,
-      ));
+      if (dialogsRef.current) {
+        return (Math.max(
+          dialogsRef.current.scrollWidth,
+          dialogsRef.current.offsetWidth,
+          dialogsRef.current.clientWidth,
+        ));
+      };
     };
     setDialogsWidth(getDialogsRefWidth());
     window.addEventListener('resize', () => {
