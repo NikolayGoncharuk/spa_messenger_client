@@ -63,22 +63,6 @@ export default connect(mapStateToProps, {})(function DialogsList(props) {
     <Paper className={classes.root}>
       <List>
         {setDialogsItems()}
-        <div>Ghbdtn</div>
-        <div>Ghbdtn</div>
-        <div>Ghbdtn</div>
-        <div>Ghbdtn</div>
-        <div>Ghbdtn</div>
-        <div>Ghbdtn</div>
-        <div>Ghbdtn</div>
-        <div>Ghbdtn</div>
-        <div>Ghbdtn</div>
-        <div>Ghbdtn</div>
-        <div>Ghbdtn</div>
-        <div>Ghbdtn</div>
-        <div>Ghbdtn</div>
-        <div>Ghbdtn</div>
-        <div>Ghbdtn</div>
-        <div>Ghbdtn</div>
       </List>
     </Paper>
   );

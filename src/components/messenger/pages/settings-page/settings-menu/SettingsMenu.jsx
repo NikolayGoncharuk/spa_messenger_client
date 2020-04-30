@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { setDarkMode } from '../../../../../store/reducers/themeReducer';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Styled Components
@@ -40,7 +42,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SettingsMenu() {
+const mapStateToProps = (state) => {
+  return {
+    theme: state.theme,
+  };
+};
+
+export default connect(mapStateToProps, { setDarkMode })(function SettingsMenu(props) {
   const classes = useStyles();
   const settingsMenuRef = React.useRef();
   const [settingsMenuWidth, setSettingsMenuWidth] = React.useState(null);
@@ -61,6 +69,10 @@ export default function SettingsMenu() {
     });
   }, []);
 
+  const handleDarkMode = () => {
+    props.setDarkMode();
+  };
+
   return (
     <div ref={settingsMenuRef}>
       <div style={{ width: settingsMenuWidth }} className={classes.settingsContainer}>
@@ -75,8 +87,8 @@ export default function SettingsMenu() {
 
         <div className={classes.settingsTitle}>
           <Typography variant="h4">Настройки</Typography>
-          <IconButton>
-            <BrightnessHighIcon />
+          <IconButton onClick={handleDarkMode}>
+            {props.theme.darkMode ? <BrightnessHighIcon /> : <BrightnessLowIcon />}
           </IconButton>
         </div>
 
@@ -84,4 +96,4 @@ export default function SettingsMenu() {
       </div>
     </div>
   );
-};
+});
