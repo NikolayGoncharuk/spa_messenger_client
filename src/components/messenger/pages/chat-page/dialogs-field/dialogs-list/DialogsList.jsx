@@ -9,6 +9,7 @@ import StyledBadge from '../../../../../../styles/styled-components/StyledBadge'
 const useStyles = makeStyles(theme => ({
   root: {
     marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(2),
   },
   listItemTag: {
     marginLeft: theme.spacing(1),
@@ -21,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const mapStateToProps = (state) => ({
-  users: state.users,
+  users: state.users.users,
 });
 
 export default connect(mapStateToProps, {})(function DialogsList(props) {

@@ -1,11 +1,11 @@
 import { withStyles } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
-import orange from '@material-ui/core/colors/orange'
+import green from '@material-ui/core/colors/green'
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
-    backgroundColor: orange[500],
-    color: orange[500],
+    backgroundColor: green[500],
+    color: green[500],
     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
     '&::after': {
       position: 'absolute',

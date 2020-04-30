@@ -41,12 +41,12 @@ export default connect(null, { login, register })(function StartPage(props) {
   const classes = useStyles();
   const [formShow, setFormShow] = React.useState('LoginForm');
 
-  const onSubmitLoginForm = (data) => {
-    props.login(data);
+  const onSubmitLoginForm = (formData) => {
+    props.login(formData);
   };
 
-  const onSubmitRegisterForm = (data) => {
-    props.register(data);
+  const onSubmitRegisterForm = (formData) => {
+    props.register(formData);
   };
 
   const formParams = {

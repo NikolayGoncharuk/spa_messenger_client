@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Divider, Paper, InputBase, IconButton, Typography } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
@@ -7,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import CreateIcon from '@material-ui/icons/Create';
 import ChatIcon from '@material-ui/icons/Chat';
 // Components
-import MemberList from './member-list/MemberList';
+import DialogsList from './dialogs-list/DialogsList';
 
 const useStyles = makeStyles(theme => ({
   dialogsContainer: {
@@ -51,11 +50,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const mapStateToProps = (state) => ({
-  users: state.users,
-});
-
-export default connect(mapStateToProps, {})(function MemberField() {
+export default function DialogsField() {
   const classes = useStyles();
   const dialogsRef = React.useRef();
   const [dialogsWidth, setDialogsWidth] = React.useState(null);
@@ -109,8 +104,8 @@ export default connect(mapStateToProps, {})(function MemberField() {
           </IconButton>
         </Paper>
 
-        <MemberList />
+        <DialogsList />
       </div>
     </div>
   );
-});
+};

@@ -1,30 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { logout } from '../../../store/reducers/authReducer';
+import { nav } from '../../../services/routes/routes';
+import { NavLink } from 'react-router-dom';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Icons
-import GroupIcon from '@material-ui/icons/Group';
-import LockIcon from '@material-ui/icons/Lock';
-import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
-import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
-import BookmarkIcon from '@material-ui/icons/Bookmark';
-import SettingsIcon from '@material-ui/icons/Settings';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import HelpIcon from '@material-ui/icons/Help';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 // Styled Components
 import StyledBadge from '../../../styles/styled-components/StyledBadge';
-import { List, ListItem, ListItemAvatar, ListItemIcon, ListItemText } from '@material-ui/core';
+import { List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core';
 import { Avatar, Divider } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
-  profileData: {
-    marginLeft: theme.spacing(3),
-    //padding: theme.spacing(2, 0, 2, 2),
-    //display: 'grid',
-    //gridTemplateColumns: 'auto calc(100% - 88px)',
-    //gridGap: theme.spacing(3),
+  userData: {
+    padding: theme.spacing(2, 0, 2, 2),
+    display: 'grid',
+    gridTemplateColumns: 'auto calc(100% - 88px)',
+    gridGap: theme.spacing(3),
   },
   profileAvatar: {
     width: theme.spacing(8),
@@ -42,66 +37,55 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { logout })(function Menu(props) {
-  const { isAuth, user: { firstName, lastName, avatar, email } } = props.auth;
+  const { isAuth, user: { firstName, lastName, email } } = props.auth;
   const classes = useStyles();
+
+  const setListItem = () => {
+    return Object.values(nav).map((item, index) => {
+      return (
+        <ListItem
+          button
+          component={NavLink}
+          to={item.path}
+          disabled={item.disabled}
+          key={index}
+        >
+          <ListItemIcon>{item.icon}</ListItemIcon>
+          <ListItemText primary={item.name} />
+        </ListItem>
+      );
+    });
+  };
 
   return (
     <div>
-      <List>
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <StyledBadge
-              invisible={!isAuth}
-              overlap="circle"
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'right', }}
-              variant="dot"
-            >
-              <Avatar className={classes.profileAvatar} alt={`${firstName} ${lastName}`} src={avatar} />
-            </StyledBadge>
-          </ListItemAvatar>
-          <ListItemText
-            className={classes.profileData}
-            primary={`${firstName} ${lastName}`}
-            primaryTypographyProps={{
-              variant: 'h6',
-              className: classes.profileName,
-              gutterBottom: true,
-            }}
-            secondary={email}
-            secondaryTypographyProps={{
-              noWrap: true,
-              color: "textSecondary",
-              variant: "body2",
-            }}
-          />
-        </ListItem>
-      </List>
+      <div className={classes.userData}>
+        <div>
+          <StyledBadge
+            invisible={!isAuth}
+            overlap="circle"
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right', }}
+            variant="dot"
+          >
+            <Avatar className={classes.profileAvatar} alt={`${firstName} ${lastName}`} src="" />
+          </StyledBadge>
+        </div>
+        <div>
+          <Typography
+            className={classes.profileName}
+            gutterBottom={true}
+            variant="h6"
+          >{`${firstName} ${lastName}`}</Typography>
+          <Typography
+            noWrap
+            color="textSecondary"
+            variant="body2"
+          >{email}</Typography>
+        </div>
+      </div >
       <Divider />
       <List>
-        <ListItem button>
-          <ListItemIcon><GroupIcon /></ListItemIcon>
-          <ListItemText primary="Создать группу" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon><LockIcon /></ListItemIcon>
-          <ListItemText primary="Создать секретный чат" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon><RecordVoiceOverIcon /></ListItemIcon>
-          <ListItemText primary="Создать канал" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon><PermContactCalendarIcon /></ListItemIcon>
-          <ListItemText primary="Контакты" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon><BookmarkIcon /></ListItemIcon>
-          <ListItemText primary="Избранное" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon><SettingsIcon /></ListItemIcon>
-          <ListItemText primary="Настройки" />
-        </ListItem>
+        {setListItem()}
         <ListItem button onClick={props.logout}>
           <ListItemIcon><MeetingRoomIcon /></ListItemIcon>
           <ListItemText primary="Выйти" />
@@ -109,11 +93,11 @@ export default connect(mapStateToProps, { logout })(function Menu(props) {
       </List>
       <Divider />
       <List>
-        <ListItem button>
+        <ListItem button disabled>
           <ListItemIcon><PersonAddIcon /></ListItemIcon>
           <ListItemText primary="Пригласить друзей" />
         </ListItem>
-        <ListItem button>
+        <ListItem button disabled>
           <ListItemIcon><HelpIcon /></ListItemIcon>
           <ListItemText primary="Вопросы о Messenger" />
         </ListItem>
@@ -121,12 +105,3 @@ export default connect(mapStateToProps, { logout })(function Menu(props) {
     </div>
   );
 });
-
-/*<div className={classes.profileData}>
-  <Avatar className={classes.profileAvatar} alt="Николай Гончарук" src="https://lifehacker.ru/special/asus-zenfone/assets/i/main/cutted/1.jpg" />
-  <div>
-    <Typography className={classes.profileName} gutterBottom={true} variant="h6">Николай Всеволодович</Typography>
-    <Typography noWrap color="textSecondary" variant="body2">Maximum number of rows to display when multiline option is set to true.</Typography>
-    <Typography noWrap color="textSecondary" variant="body2">+7 (914) 548-34-84</Typography>
-  </div>
-</div >*/
