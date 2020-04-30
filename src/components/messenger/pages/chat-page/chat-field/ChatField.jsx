@@ -1,4 +1,5 @@
 import React from 'react';
+import { setDynamicWidth } from '../../../setDynamicWidth';
 // Components
 import ChatHeader from './chat-header/ChatHeader';
 import MessageContainer from './message-container/MessageContainer';
@@ -21,18 +22,8 @@ export default function ChatField() {
   const [chatFieldWidth, setChatFieldWidth] = React.useState(null);
 
   React.useEffect(() => {
-    function getChatFieldWidth() {
-      if (chatFieldRef.current) {
-        return (Math.max(
-          chatFieldRef.current.scrollWidth,
-          chatFieldRef.current.offsetWidth,
-          chatFieldRef.current.clientWidth,
-        ));
-      };
-    };
-    setChatFieldWidth(getChatFieldWidth());
-    window.addEventListener('resize', () => {
-      setChatFieldWidth(getChatFieldWidth());
+    setDynamicWidth(chatFieldRef, (value) => {
+      setChatFieldWidth(value);
     });
   }, []);
 

@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setDarkMode } from '../../../../../store/reducers/themeReducer';
+import { setDynamicWidth } from '../../../setDynamicWidth';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Styled Components
 import { Typography, IconButton } from '@material-ui/core';
 // Icons
-import ChatIcon from '@material-ui/icons/Chat';
 import BrightnessHighIcon from '@material-ui/icons/BrightnessHigh';
 import BrightnessLowIcon from '@material-ui/icons/BrightnessLow';
 // Components
+import Top from '../../../top/Top';
 import SettingsMenuList from './settings-menu-list/SettingsMenuList';
 
 const useStyles = makeStyles(theme => ({
@@ -26,15 +27,6 @@ const useStyles = makeStyles(theme => ({
       '-webkit-box-shadow': 'inset 0 0 6px rgba(0, 0, 0, 0.0)',
       backgroundColor: 'rgba(0, 0, 0, 0.1)',
     },
-  },
-  dialogsTop: {
-    display: 'grid',
-    gridTemplateColumns: 'auto 1fr',
-    gridGap: theme.spacing(2),
-    padding: theme.spacing(3, 0),
-  },
-  dialogsTopLogo: {
-    marginTop: '4px',
   },
   settingsTitle: {
     display: 'flex',
@@ -54,18 +46,8 @@ export default connect(mapStateToProps, { setDarkMode })(function SettingsMenu(p
   const [settingsMenuWidth, setSettingsMenuWidth] = React.useState(null);
 
   React.useEffect(() => {
-    function getSettingsMenuRefWidth() {
-      if (settingsMenuRef.current) {
-        return (Math.max(
-          settingsMenuRef.current.scrollWidth,
-          settingsMenuRef.current.offsetWidth,
-          settingsMenuRef.current.clientWidth,
-        ));
-      };
-    };
-    setSettingsMenuWidth(getSettingsMenuRefWidth());
-    window.addEventListener('resize', () => {
-      setSettingsMenuWidth(getSettingsMenuRefWidth());
+    setDynamicWidth(settingsMenuRef, (value) => {
+      setSettingsMenuWidth(value);
     });
   }, []);
 
@@ -76,22 +58,13 @@ export default connect(mapStateToProps, { setDarkMode })(function SettingsMenu(p
   return (
     <div ref={settingsMenuRef}>
       <div style={{ width: settingsMenuWidth }} className={classes.settingsContainer}>
-
-        <div className={classes.dialogsTop}>
-          <ChatIcon className={classes.dialogsTopLogo} />
-          <div>
-            <Typography variant="subtitle2">Messenger</Typography>
-            <Typography color="textSecondary" variant="caption">Почти как Телега, только не Телега</Typography>
-          </div>
-        </div>
-
+        <Top />
         <div className={classes.settingsTitle}>
           <Typography variant="h4">Настройки</Typography>
           <IconButton onClick={handleDarkMode}>
             {props.theme.darkMode ? <BrightnessHighIcon /> : <BrightnessLowIcon />}
           </IconButton>
         </div>
-
         <SettingsMenuList />
       </div>
     </div>

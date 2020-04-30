@@ -4,7 +4,7 @@ import { setDynamicWidth } from '../../../setDynamicWidth';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  settingsContainer: {
+  userProfileContainer: {
     position: 'absolute',
     overflow: 'auto',
     height: '100%',
@@ -20,22 +20,22 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SettingsField() {
+export default function UserProfile() {
   const classes = useStyles();
-  const settingsFieldRef = React.useRef();
-  const [settingsFieldWidth, setSettingsFieldWidth] = React.useState(null);
+  const userProfileRef = React.useRef();
+  const [userProfileWidth, setUserProfileWidth] = React.useState(null);
 
   React.useEffect(() => {
-    setDynamicWidth(settingsFieldRef, (value) => {
-      setSettingsFieldWidth(value);
+    setDynamicWidth(userProfileRef, (value) => {
+      setUserProfileWidth(value);
     });
   }, []);
 
   return (
-    <div ref={settingsFieldRef}>
+    <div ref={userProfileRef}>
       <div
-        style={{ width: settingsFieldWidth }}
-        className={classes.settingsContainer}
+        style={{ width: userProfileWidth }}
+        className={classes.userProfileContainer}
       >
 
       </div>

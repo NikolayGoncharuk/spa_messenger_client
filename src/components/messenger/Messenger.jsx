@@ -10,6 +10,7 @@ import { Typography } from '@material-ui/core';
 // Components
 import Sidebar from './sidebar/Sidebar';
 import ChatPage from './pages/chat-page/ChatPage';
+import UsersPage from './pages/users-page/UsersPage';
 import SettingsPage from './pages/settings-page/SettingsPage';
 import Loading from '../loading/Loading';
 
@@ -68,6 +69,9 @@ export default connect(mapStateToProps, { getUsers })(function Messenger(props) 
         <Switch>
           <Route path={nav.chat.path}>
             {props.users.length > 0 ? <ChatPage /> : <Typography className={classes.textEmptyPage}>Выберите собеседника в списке контактов</Typography>}
+          </Route>
+          <Route path={nav.users.path}>
+            <UsersPage />
           </Route>
           <Route path={nav.settings.path}>
             <SettingsPage />

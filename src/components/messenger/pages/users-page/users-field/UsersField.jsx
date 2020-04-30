@@ -2,17 +2,17 @@ import React from 'react';
 import { setDynamicWidth } from '../../../setDynamicWidth';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
-// Styles Components
+// Styled Components
 import { IconButton, Typography } from '@material-ui/core';
 // Icons
 import CreateIcon from '@material-ui/icons/Create';
 // Components
 import Top from '../../../top/Top';
-import DialogsList from './dialogs-list/DialogsList';
+import UsersList from './users-list/UsersList';
 import Search from '../../../search/Search';
 
 const useStyles = makeStyles(theme => ({
-  dialogsContainer: {
+  usersContainer: {
     position: 'fixed',
     height: '100%',
     overflow: 'auto',
@@ -26,35 +26,35 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: 'rgba(0, 0, 0, 0.1)',
     },
   },
-  dialogsTitle: {
+  usersTitle: {
     display: 'flex',
     justifyContent: 'space-between',
   },
 }));
 
-export default function DialogsField() {
+export default function UsersField() {
   const classes = useStyles();
-  const dialogsRef = React.useRef();
-  const [dialogsWidth, setDialogsWidth] = React.useState(null);
+  const usersRef = React.useRef();
+  const [usersWidth, setUsersWidth] = React.useState(null);
 
   React.useEffect(() => {
-    setDynamicWidth(dialogsRef, (value) => {
-      setDialogsWidth(value);
+    setDynamicWidth(usersRef, (value) => {
+      setUsersWidth(value);
     });
   }, []);
 
   return (
-    <div ref={dialogsRef}>
-      <div style={{ width: dialogsWidth }} className={classes.dialogsContainer}>
+    <div ref={usersRef}>
+      <div style={{ width: usersWidth }} className={classes.usersContainer}>
         <Top />
-        <div className={classes.dialogsTitle}>
-          <Typography variant="h4">Мои диалоги</Typography>
+        <div className={classes.usersTitle}>
+          <Typography variant="h4">Пользователи</Typography>
           <IconButton>
             <CreateIcon />
           </IconButton>
         </div>
         <Search />
-        <DialogsList />
+        <UsersList />
       </div>
     </div>
   );
