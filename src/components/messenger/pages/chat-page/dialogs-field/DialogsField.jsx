@@ -27,13 +27,12 @@ const useStyles = makeStyles(theme => ({
     display: 'grid',
     gridTemplateColumns: 'auto 1fr',
     gridGap: theme.spacing(2),
-    padding: theme.spacing(3, 0, 0, 0),
+    padding: theme.spacing(3, 0),
   },
   dialogsTopLogo: {
     marginTop: '4px',
   },
   dialogsTitle: {
-    padding: theme.spacing(3, 0),
     display: 'flex',
     justifyContent: 'space-between',
   },
@@ -41,6 +40,8 @@ const useStyles = makeStyles(theme => ({
     position: 'sticky',
     top: 0,
     padding: theme.spacing(1, 2),
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
     display: 'flex',
     zIndex: theme.zIndex.appBar,
   },

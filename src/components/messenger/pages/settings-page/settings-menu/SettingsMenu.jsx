@@ -11,7 +11,7 @@ import BrightnessLowIcon from '@material-ui/icons/BrightnessLow';
 import SettingsMenuList from './settings-menu-list/SettingsMenuList';
 
 const useStyles = makeStyles(theme => ({
-  dialogsContainer: {
+  settingsContainer: {
     position: 'fixed',
     height: '100%',
     overflow: 'auto',
@@ -29,26 +29,14 @@ const useStyles = makeStyles(theme => ({
     display: 'grid',
     gridTemplateColumns: 'auto 1fr',
     gridGap: theme.spacing(2),
-    padding: theme.spacing(3, 0, 0, 0),
+    padding: theme.spacing(3, 0),
   },
   dialogsTopLogo: {
     marginTop: '4px',
   },
-  dialogsTitle: {
-    padding: theme.spacing(3, 0),
+  settingsTitle: {
     display: 'flex',
     justifyContent: 'space-between',
-  },
-  searchWrapper: {
-    position: 'sticky',
-    top: 0,
-    padding: theme.spacing(1, 2),
-    display: 'flex',
-    zIndex: theme.zIndex.appBar,
-  },
-  searchDivider: {
-    height: 28,
-    margin: theme.spacing('auto', '4px'),
   },
 }));
 
@@ -75,7 +63,7 @@ export default function SettingsMenu() {
 
   return (
     <div ref={settingsMenuRef}>
-      <div style={{ width: settingsMenuWidth }} className={classes.dialogsContainer}>
+      <div style={{ width: settingsMenuWidth }} className={classes.settingsContainer}>
 
         <div className={classes.dialogsTop}>
           <ChatIcon className={classes.dialogsTopLogo} />
@@ -85,7 +73,7 @@ export default function SettingsMenu() {
           </div>
         </div>
 
-        <div className={classes.dialogsTitle}>
+        <div className={classes.settingsTitle}>
           <Typography variant="h4">Настройки</Typography>
           <IconButton>
             <BrightnessHighIcon />

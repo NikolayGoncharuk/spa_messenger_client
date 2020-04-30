@@ -8,8 +8,7 @@ import StyledBadge from '../../../../../../styles/styled-components/StyledBadge'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(2),
+    margin: theme.spacing(2, 0),
   },
   listItemTag: {
     marginLeft: theme.spacing(1),
@@ -64,6 +63,22 @@ export default connect(mapStateToProps, {})(function DialogsList(props) {
     <Paper className={classes.root}>
       <List>
         {setDialogsItems()}
+        <div>Ghbdtn</div>
+        <div>Ghbdtn</div>
+        <div>Ghbdtn</div>
+        <div>Ghbdtn</div>
+        <div>Ghbdtn</div>
+        <div>Ghbdtn</div>
+        <div>Ghbdtn</div>
+        <div>Ghbdtn</div>
+        <div>Ghbdtn</div>
+        <div>Ghbdtn</div>
+        <div>Ghbdtn</div>
+        <div>Ghbdtn</div>
+        <div>Ghbdtn</div>
+        <div>Ghbdtn</div>
+        <div>Ghbdtn</div>
+        <div>Ghbdtn</div>
       </List>
     </Paper>
   );

@@ -3,38 +3,49 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  chatContainer: {
-    position: 'fixed',
+  settingsContainer: {
+    position: 'absolute',
+    overflow: 'auto',
     height: '100%',
-    display: 'grid',
-    gridTemplateRows: 'auto 1fr auto',
+    padding: theme.spacing(3),
+    '&::-webkit-scrollbar': {
+      width: '8px',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      borderRadius: '100px',
+      '-webkit-box-shadow': 'inset 0 0 6px rgba(0, 0, 0, 0.0)',
+      backgroundColor: 'rgba(127, 127, 127, 0.3)',
+    },
   },
 }));
 
 export default function SettingsField() {
   const classes = useStyles();
-  const chatFieldRef = React.useRef();
-  const [chatFieldWidth, setChatFieldWidth] = React.useState(null);
+  const settingsFieldRef = React.useRef();
+  const [settingsFieldWidth, setSettingsFieldWidth] = React.useState(null);
 
   React.useEffect(() => {
-    function getChatFieldWidth() {
-      if (chatFieldRef.current) {
+    function getSettingsFieldWidth() {
+      if (settingsFieldRef.current) {
         return (Math.max(
-          chatFieldRef.current.scrollWidth,
-          chatFieldRef.current.offsetWidth,
-          chatFieldRef.current.clientWidth,
+          settingsFieldRef.current.scrollWidth,
+          settingsFieldRef.current.offsetWidth,
+          settingsFieldRef.current.clientWidth,
         ));
       };
     };
-    setChatFieldWidth(getChatFieldWidth());
+    setSettingsFieldWidth(getSettingsFieldWidth());
     window.addEventListener('resize', () => {
-      setChatFieldWidth(getChatFieldWidth());
+      setSettingsFieldWidth(getSettingsFieldWidth());
     });
   }, []);
 
   return (
-    <div ref={chatFieldRef}>
-      <div style={{ width: chatFieldWidth }} className={classes.chatContainer}>
+    <div ref={settingsFieldRef}>
+      <div
+        style={{ width: settingsFieldWidth }}
+        className={classes.settingsContainer}
+      >
 
       </div>
     </div>

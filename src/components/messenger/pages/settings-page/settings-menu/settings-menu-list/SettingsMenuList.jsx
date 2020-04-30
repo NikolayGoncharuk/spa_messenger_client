@@ -14,13 +14,13 @@ import PolicyOutlinedIcon from '@material-ui/icons/PolicyOutlined';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(3),
   },
   menuContainer: {
     marginBottom: theme.spacing(2),
   },
   menuContainerTitle: {
-    padding: theme.spacing(2, 3, 1, 2),
+    padding: theme.spacing(2, 2, 1, 2),
   },
   divider: {
     marginLeft: theme.spacing(2),

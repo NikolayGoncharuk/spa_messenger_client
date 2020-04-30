@@ -1,7 +1,6 @@
 import React from 'react';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
 // Components
 import SettingsMenu from './settings-menu/SettingsMenu';
 import SettingsField from './settings-field/SettingsField';
