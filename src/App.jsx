@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { getUserData } from './store/reducers/authReducer';
+import { getProfile } from './store/reducers/authReducer';
 // Styles
 import { ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,21 +16,21 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getUserData })(function App(props) {
+export default connect(mapStateToProps, { getProfile })(function App(props) {
   let theme = responsiveFontSizes(makeTheme(props.theme));
-  const { isAuth, user } = props.auth;
+  const { isAuth, profile } = props.auth;
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     setLoading(true);
-    props.getUserData(() => setLoading(false));
+    props.getProfile(() => setLoading(false));
   }, [isAuth]);
 
   function setRoutes() {
     if (loading) {
       return <Loading />;
     };
-    if (isAuth && user) {
+    if (isAuth && profile) {
       return (
         <Messenger />
       );

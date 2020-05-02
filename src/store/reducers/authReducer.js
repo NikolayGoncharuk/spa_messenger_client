@@ -1,19 +1,19 @@
-import { authApi } from '../../services/api/api';
+import { authApi, profileApi } from '../../services/api/api';
 
 const SET_IS_AUTH = 'auth/SET_IS_AUTH';
-const SET_USER = 'auth/SET_USER';
+const SET_PROFILE = 'auth/SET_PROFILE';
 
 const initialState = {
   isAuth: false,
-  user: null,
+  profile: null,
 };
 
 export default function usersReducer(state = initialState, action) {
   switch (action.type) {
     case SET_IS_AUTH:
       return { ...state, isAuth: action.isAuth };
-    case SET_USER:
-      return { ...state, user: action.user };
+    case SET_PROFILE:
+      return { ...state, profile: action.profile };
     default:
       return state;
   };
@@ -24,21 +24,21 @@ export default function usersReducer(state = initialState, action) {
 const setIsAuth = (isAuth) => {
   return { type: SET_IS_AUTH, isAuth };
 };
-const setUser = (user) => {
-  return { type: SET_USER, user };
+const setProfile = (profile) => {
+  return { type: SET_PROFILE, profile };
 };
 
 // Thunk creators
 
 export const register = (formData) => async (dispatch) => {
-  const data = await authApi.postRegisterData(formData);
+  const data = await authApi.register(formData);
   if (data.resultCode === 1) {
     login(data.user)(dispatch);
   };
 };
 
 export const login = (formData) => async (dispatch) => {
-  const data = await authApi.postLoginData(formData);
+  const data = await authApi.login(formData);
   if (data.resultCode === 1) {
     localStorage.setItem('token', data.token);
     dispatch(setIsAuth(true));
@@ -48,15 +48,15 @@ export const login = (formData) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   localStorage.removeItem('token');
   dispatch(setIsAuth(false));
-  dispatch(setUser(null));
+  dispatch(setProfile(null));
 };
 
-export const getUserData = (setLoading) => async (dispatch) => {
+export const getProfile = (setLoading) => async (dispatch) => {
   if (localStorage.token) {
-    const data = await authApi.getUserData();
+    const data = await profileApi.getProfile();
     if (data.resultCode === 1) {
       dispatch(setIsAuth(true));
-      dispatch(setUser(data.user));
+      dispatch(setProfile(data.profile));
     } else {
       logout()(dispatch);
     };

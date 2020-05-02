@@ -37,7 +37,7 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { logout })(function Menu(props) {
-  const { isAuth, user: { firstName, lastName, email } } = props.auth;
+  const { isAuth, profile: { firstName, lastName, email } } = props.auth;
   const classes = useStyles();
 
   const setListItem = () => {
