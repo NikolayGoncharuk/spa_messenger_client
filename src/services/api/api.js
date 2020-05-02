@@ -11,11 +11,11 @@ const requestParams = () => {
 };
 
 export const authApi = {
-  async register(data) {
+  async postRegister(data) {
     const response = await axios.post(`${baseURL}/auth/register`, { ...data });
     return response.data;
   },
-  async login(data) {
+  async postLogin(data) {
     const response = await axios.post(`${baseURL}/auth/login`, { ...data });
     return response.data;
   },
@@ -30,6 +30,13 @@ export const profileApi = {
 
 export const usersApi = {
   async getUsers() {
+    const response = await axios.get(`${baseURL}/users`, requestParams());
+    return response.data;
+  },
+};
+
+export const chatApi = {
+  async getDialogs() {
     const response = await axios.get(`${baseURL}/users`, requestParams());
     return response.data;
   },

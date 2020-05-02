@@ -16,40 +16,42 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getProfile })(function App(props) {
-  let theme = responsiveFontSizes(makeTheme(props.theme));
-  const { isAuth, profile } = props.auth;
-  const [loading, setLoading] = React.useState(true);
+export default connect(mapStateToProps, { getProfile })(
+  function App(props) {
+    let theme = responsiveFontSizes(makeTheme(props.theme));
+    const { isAuth, profile } = props.auth;
+    const [loading, setLoading] = React.useState(true);
 
-  React.useEffect(() => {
-    setLoading(true);
-    props.getProfile(() => setLoading(false));
-  }, [isAuth]);
+    React.useEffect(() => {
+      setLoading(true);
+      props.getProfile(() => setLoading(false));
+    }, [isAuth]);
 
-  function setRoutes() {
-    if (loading) {
-      return <Loading />;
+    function setRoutes() {
+      if (loading) {
+        return <Loading />;
+      };
+      if (isAuth && profile) {
+        return (
+          <Messenger />
+        );
+      } else {
+        return (
+          <Switch>
+            <Route exact path="/">
+              <StartPage />
+            </Route>
+            <Redirect to="/" />
+          </Switch>
+        );
+      };
     };
-    if (isAuth && profile) {
-      return (
-        <Messenger />
-      );
-    } else {
-      return (
-        <Switch>
-          <Route exact path="/">
-            <StartPage />
-          </Route>
-          <Redirect to="/" />
-        </Switch>
-      );
-    };
-  };
 
-  return (
-    <ThemeProvider theme={theme} >
-      <CssBaseline />
-      {setRoutes()}
-    </ThemeProvider >
-  );
-});
+    return (
+      <ThemeProvider theme={theme} >
+        <CssBaseline />
+        {setRoutes()}
+      </ThemeProvider >
+    );
+  }
+);

@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function UsersField() {
+export default function UsersField(props) {
   const classes = useStyles();
   const usersRef = React.useRef();
   const [usersWidth, setUsersWidth] = React.useState(null);
@@ -54,7 +54,7 @@ export default function UsersField() {
           </IconButton>
         </div>
         <Search />
-        <UsersList />
+        <UsersList users={props.users} />
       </div>
     </div>
   );

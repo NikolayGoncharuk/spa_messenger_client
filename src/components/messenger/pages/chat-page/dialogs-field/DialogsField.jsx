@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function DialogsField() {
+export default function DialogsField(props) {
   const classes = useStyles();
   const dialogsRef = React.useRef();
   const [dialogsWidth, setDialogsWidth] = React.useState(null);
@@ -54,7 +54,7 @@ export default function DialogsField() {
           </IconButton>
         </div>
         <Search />
-        <DialogsList />
+        <DialogsList dialogs={props.dialogs} />
       </div>
     </div>
   );

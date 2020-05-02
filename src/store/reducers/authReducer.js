@@ -31,14 +31,14 @@ const setProfile = (profile) => {
 // Thunk creators
 
 export const register = (formData) => async (dispatch) => {
-  const data = await authApi.register(formData);
+  const data = await authApi.postRegister(formData);
   if (data.resultCode === 1) {
     login(data.user)(dispatch);
   };
 };
 
 export const login = (formData) => async (dispatch) => {
-  const data = await authApi.login(formData);
+  const data = await authApi.postLogin(formData);
   if (data.resultCode === 1) {
     localStorage.setItem('token', data.token);
     dispatch(setIsAuth(true));

@@ -5,8 +5,6 @@ import { nav } from '../../services/routes/routes';
 import { getUsers } from '../../store/reducers/usersReducer';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
-// Styled Components
-import { Typography } from '@material-ui/core';
 // Components
 import Sidebar from './sidebar/Sidebar';
 import ChatPage from './pages/chat-page/ChatPage';
@@ -67,15 +65,9 @@ export default connect(mapStateToProps, { getUsers })(function Messenger(props) 
       </div>
       <div className={classes.content}>
         <Switch>
-          <Route path={nav.chat.path}>
-            {props.users.length > 0 ? <ChatPage /> : <Typography className={classes.textEmptyPage}>Выберите собеседника в списке контактов</Typography>}
-          </Route>
-          <Route path={nav.users.path}>
-            <UsersPage />
-          </Route>
-          <Route path={nav.settings.path}>
-            <SettingsPage />
-          </Route>
+          <Route path={nav.chat.path} component={ChatPage} />
+          <Route path={nav.users.path} component={UsersPage} />
+          <Route path={nav.settings.path} component={SettingsPage} />
           <Redirect to={nav.chat.path} />
         </Switch>
       </div>

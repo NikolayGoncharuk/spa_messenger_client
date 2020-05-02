@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { List, ListItem, ListItemText, ListItemAvatar } from '@material-ui/core';
 import { Divider, Avatar, Paper } from '@material-ui/core';
@@ -11,11 +10,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const mapStateToProps = (state) => ({
-  users: state.users.users,
-});
-
-export default connect(mapStateToProps, {})(function UsersList(props) {
+export default function UsersList(props) {
   const classes = useStyles();
 
   function setDialogsItems() {
@@ -53,4 +48,4 @@ export default connect(mapStateToProps, {})(function UsersList(props) {
       </List>
     </Paper>
   );
-});
+};
