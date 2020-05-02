@@ -38,17 +38,19 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, { getUsers })(
   function UsersPage(props) {
-    const { users } = props;
+    const { users, getUsers } = props;
     const classes = useStyles();
+    const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
-      props.getUsers();
+      setLoading(true);
+      getUsers(() => setLoading(false));
     }, []);
 
     return (
       <div className={classes.root}>
         <div className={classes.usersField}>
-          <UsersField users={users} />
+          <UsersField users={users} loading={loading} />
         </div>
         <div className={classes.userProfile}>
           <UserProfile />

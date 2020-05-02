@@ -51,16 +51,12 @@ export default connect(mapStateToProps, { getDialogs })(
 
     return (
       <div className={classes.root}>
-        {dialogs.length > 0 ? (
-          <React.Fragment>
-            <div className={classes.dialogs}>
-              <DialogsField dialogs={dialogs} />
-            </div>
-            <div className={classes.chat}>
-              <ChatField />
-            </div>
-          </React.Fragment>
-        ) : <Typography className={classes.textEmptyPage}>Выберите собеседника в списке пользователей</Typography>}
+        <div className={classes.dialogs}>
+          <DialogsField dialogs={dialogs} />
+        </div>
+        <div className={classes.chat}>
+          <ChatField />
+        </div>
       </div>
     );
   }
