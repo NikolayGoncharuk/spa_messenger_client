@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { getDialogs } from '../../../../store/reducers/chatReducer';
+// Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Styled Components
 import { Typography } from '@material-ui/core';
@@ -38,22 +40,27 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {})(
+export default connect(mapStateToProps, { getDialogs })(
   function ChatPage(props) {
+    const { dialogs } = props;
     const classes = useStyles();
+
+    React.useEffect(() => {
+      props.getDialogs();
+    }, []);
 
     return (
       <div className={classes.root}>
-        {props.dialogs.length > 0 ? (
+        {dialogs.length > 0 ? (
           <React.Fragment>
             <div className={classes.dialogs}>
-              <DialogsField dialogs={props.dialogs} />
+              <DialogsField dialogs={dialogs} />
             </div>
             <div className={classes.chat}>
               <ChatField />
             </div>
           </React.Fragment>
-        ) : <Typography className={classes.textEmptyPage}>Выберите собеседника в списке контактов</Typography>}
+        ) : <Typography className={classes.textEmptyPage}>Выберите собеседника в списке пользователей</Typography>}
       </div>
     );
   }

@@ -26,10 +26,11 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {})(
   function DialogsList(props) {
+    const { dialogs } = props;
     const classes = useStyles();
 
     function setDialogsItems() {
-      return props.users.map((item, index) => {
+      return dialogs.map((item, index) => {
         return (
           <React.Fragment key={index}>
             <ListItem button alignItems="flex-start">
@@ -54,7 +55,7 @@ export default connect(mapStateToProps, {})(
                 <DoneAllIcon style={{ marginTop: '2px' }} fontSize="inherit" />
               </div>
             </ListItem>
-            {index + 1 < props.users.length && <Divider variant="inset" component="li" />}
+            {index + 1 < dialogs.length && <Divider variant="inset" component="li" />}
           </React.Fragment>
         );
       });

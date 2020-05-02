@@ -11,10 +11,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function UsersList(props) {
+  const { users } = props;
   const classes = useStyles();
 
   function setDialogsItems() {
-    return props.users.map((item, index) => {
+    return users.map((item, index) => {
       return (
         <React.Fragment key={index}>
           <ListItem button alignItems="flex-start">
@@ -35,7 +36,7 @@ export default function UsersList(props) {
               secondaryTypographyProps={{ noWrap: true }}
             />
           </ListItem>
-          {index + 1 < props.users.length && <Divider variant="inset" component="li" />}
+          {index + 1 < users.length && <Divider variant="inset" component="li" />}
         </React.Fragment>
       );
     });

@@ -37,7 +37,7 @@ export const usersApi = {
 
 export const chatApi = {
   async getDialogs() {
-    const response = await axios.get(`${baseURL}/users`, requestParams());
+    const response = await axios.get(`${baseURL}/chat/dialogs`, requestParams());
     return response.data;
   },
 };

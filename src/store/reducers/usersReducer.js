@@ -25,12 +25,11 @@ const setUsers = (users) => {
 
 // Thunk creators
 
-export const getUsers = (setLoading) => async (dispatch) => {
+export const getUsers = () => async (dispatch) => {
   if (localStorage.token) {
     const data = await usersApi.getUsers();
     if (data.resultCode === 1) {
       dispatch(setUsers(data.users));
     };
   };
-  setLoading();
 };

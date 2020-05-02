@@ -3,7 +3,7 @@ import { chatApi } from '../../services/api/api';
 const SET_DIALOGS = 'chat/SET_DIALOGS';
 
 const initialState = {
-  dialogs: ['Петя'],
+  dialogs: [],
 };
 
 export default function usersReducer(state = initialState, action) {

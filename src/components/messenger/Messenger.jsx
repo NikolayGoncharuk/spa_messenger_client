@@ -1,8 +1,6 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { nav } from '../../services/routes/routes';
-import { getUsers } from '../../store/reducers/usersReducer';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Components
@@ -10,7 +8,6 @@ import Sidebar from './sidebar/Sidebar';
 import ChatPage from './pages/chat-page/ChatPage';
 import UsersPage from './pages/users-page/UsersPage';
 import SettingsPage from './pages/settings-page/SettingsPage';
-import Loading from '../loading/Loading';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,22 +38,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const mapStateToProps = (state) => ({
-  users: state.users.users,
-});
-
-export default connect(mapStateToProps, { getUsers })(function Messenger(props) {
+export default function Messenger(props) {
   const classes = useStyles();
-  const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    setLoading(true);
-    props.getUsers(() => setLoading(false));
-  }, []);
-
-  if (loading) {
-    return <Loading />;
-  };
 
   return (
     <div className={classes.root}>
@@ -73,4 +56,4 @@ export default connect(mapStateToProps, { getUsers })(function Messenger(props) 
       </div>
     </div>
   );
-});
+};
