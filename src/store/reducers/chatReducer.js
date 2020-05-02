@@ -1,4 +1,5 @@
 import { chatApi } from '../../services/api/api';
+import { getUsers } from './usersReducer';
 
 const SET_DIALOGS = 'chat/SET_DIALOGS';
 
@@ -24,10 +25,16 @@ const setDialogs = (dialogs) => {
 // Thunk creators
 
 export const getDialogs = () => async (dispatch) => {
-  if (localStorage.token) {
-    const data = await chatApi.getDialogs();
-    if (data.resultCode === 1) {
-      dispatch(setDialogs(data.dialogs));
-    };
+  const data = await chatApi.getDialogs();
+  if (data.resultCode === 1) {
+    dispatch(setDialogs(data.dialogs));
   };
+};
+
+export const initialMessenger = (setLoading) => async (dispatch) => {
+  if (localStorage.token) {
+    await getDialogs()(dispatch);
+    await getUsers()(dispatch);
+  };
+  setLoading();
 };

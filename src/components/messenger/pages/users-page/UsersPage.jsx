@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { getUsers } from '../../../../store/reducers/usersReducer';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Components
@@ -32,30 +30,17 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const mapStateToProps = (state) => ({
-  users: state.users.users,
-});
+export default function UsersPage(props) {
+  const classes = useStyles();
 
-export default connect(mapStateToProps, { getUsers })(
-  function UsersPage(props) {
-    const { users, getUsers } = props;
-    const classes = useStyles();
-    const [loading, setLoading] = React.useState(true);
-
-    React.useEffect(() => {
-      setLoading(true);
-      getUsers(() => setLoading(false));
-    }, []);
-
-    return (
-      <div className={classes.root}>
-        <div className={classes.usersField}>
-          <UsersField users={users} loading={loading} />
-        </div>
-        <div className={classes.userProfile}>
-          <UserProfile />
-        </div>
+  return (
+    <div className={classes.root}>
+      <div className={classes.usersField}>
+        <UsersField {...props} />
       </div>
-    );
-  }
-);
+      <div className={classes.userProfile}>
+        <UserProfile />
+      </div>
+    </div>
+  );
+};
