@@ -1,10 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+// STyles
 import { makeStyles } from '@material-ui/core/styles';
-import { List, ListItem, ListItemText, ListItemAvatar } from '@material-ui/core';
-import { Divider, Typography, Avatar, Paper } from '@material-ui/core';
+// Icons
 import DoneAllIcon from '@material-ui/icons/DoneAll';
+// Styled Components
 import StyledBadge from '../../../../../../styles/styled-components/StyledBadge';
+import { List, ListItem, ListItemText, ListItemAvatar } from '@material-ui/core';
+import { Divider, Typography, Avatar, Paper, Box } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,6 +22,9 @@ const useStyles = makeStyles(theme => ({
     justifyItems: 'end',
     alignItems: 'end',
   },
+  skeletonWrapper: {
+    width: '100%',
+  },
 }));
 
 const mapStateToProps = (state) => ({
@@ -26,39 +33,52 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {})(
   function DialogsList(props) {
-    const { dialogs } = props;
+    const { dialogs, loading } = props;
     const classes = useStyles();
 
+    const bootArray = new Array(10);
+
     function setDialogsItems() {
-      return dialogs.map((item, index) => {
-        return (
-          <React.Fragment key={index}>
-            <ListItem button alignItems="flex-start">
-              <ListItemAvatar>
-                <StyledBadge
-                  invisible={!item.status}
-                  overlap="circle"
-                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right', }}
-                  variant="dot"
-                >
-                  <Avatar alt={`${item.firstName} ${item.lastName}`} src={item.avatar} />
-                </StyledBadge>
-              </ListItemAvatar>
-              <ListItemText
-                primary={`${item.firstName} ${item.lastName}`}
-                primaryTypographyProps={{ noWrap: true }}
-                secondary="Maximum number of rows to display when multiline option is set to true."
-                secondaryTypographyProps={{ noWrap: true }}
-              />
-              <div className={classes.listItemTag}>
-                <Typography color="textSecondary" variant="caption">12.04</Typography>
-                <DoneAllIcon style={{ marginTop: '2px' }} fontSize="inherit" />
-              </div>
-            </ListItem>
-            {index + 1 < dialogs.length && <Divider variant="inset" component="li" />}
-          </React.Fragment>
-        );
-      });
+      return (
+        (loading ? Array.from(bootArray) : dialogs).map((item, index) => {
+          return (
+            <React.Fragment key={index}>
+              <ListItem button={!loading} alignItems="flex-start">
+                <ListItemAvatar>
+                  {item ?
+                    <StyledBadge
+                      invisible={!item.status}
+                      overlap="circle"
+                      anchorOrigin={{ vertical: 'bottom', horizontal: 'right', }}
+                      variant="dot"
+                    >
+                      <Avatar alt={`${item.firstName} ${item.lastName}`} src={item.avatar} />
+                    </StyledBadge> :
+                    <Skeleton variant="circle" width={40} height={40} />
+                  }
+                </ListItemAvatar>
+                {item ?
+                  <ListItemText
+                    primary={`${item.firstName} ${item.lastName}`}
+                    primaryTypographyProps={{ noWrap: true }}
+                    secondary="Maximum number of rows to display when multiline option is set to true."
+                    secondaryTypographyProps={{ noWrap: true }}
+                  /> :
+                  <Box pt={0.5} pb={1} className={classes.skeletonWrapper}>
+                    <Skeleton height="24px" width="60%" />
+                    <Skeleton />
+                  </Box>
+                }
+                {item && <div className={classes.listItemTag}>
+                  <Typography color="textSecondary" variant="caption">12.04</Typography>
+                  <DoneAllIcon style={{ marginTop: '2px' }} fontSize="inherit" />
+                </div>}
+              </ListItem>
+              {index + 1 < (item ? dialogs : bootArray).length && <Divider variant="inset" component="li" />}
+            </React.Fragment>
+          );
+        })
+      );
     };
 
     return (

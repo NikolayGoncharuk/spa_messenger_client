@@ -54,7 +54,7 @@ export default function UsersField(props) {
           </IconButton>
         </div>
         <Search />
-        <UsersList {...props} />
+        < UsersList {...props} />
       </div>
     </div>
   );
