@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ChatField() {
+export default function ChatField(props) {
   const classes = useStyles();
   const chatFieldRef = React.useRef();
   const [chatFieldWidth, setChatFieldWidth] = React.useState(null);
@@ -31,7 +31,7 @@ export default function ChatField() {
     <div ref={chatFieldRef}>
       <div style={{ width: chatFieldWidth }} className={classes.chatContainer}>
         <ChatHeader />
-        <MessageContainer />
+        <MessageContainer {...props} />
         <SendMessageForm />
       </div>
     </div>

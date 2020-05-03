@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getUsers } from '../../../../store/reducers/usersReducer';
+import { postMessage } from '../../../../store/reducers/chatReducer';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Components
@@ -36,7 +37,7 @@ const mapStateToProps = (state) => ({
   users: state.users.users,
 });
 
-export default connect(mapStateToProps, { getUsers })(
+export default connect(mapStateToProps, { getUsers, postMessage })(
   function UsersPage(props) {
     const classes = useStyles();
     const [selectedUser, setSelectedUser] = React.useState(null);
@@ -47,7 +48,7 @@ export default connect(mapStateToProps, { getUsers })(
           <UsersField {...props} setSelectedUser={setSelectedUser} />
         </div>
         <div className={classes.userProfile}>
-          <UserProfile selectedUser={selectedUser} />
+          <UserProfile selectedUser={selectedUser} postMessage={props.postMessage} />
         </div>
       </div>
     );

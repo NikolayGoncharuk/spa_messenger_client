@@ -12,6 +12,7 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     overflow: 'auto',
     height: '100%',
+    width: '100%',
     padding: theme.spacing(3),
     '&::-webkit-scrollbar': {
       width: '8px',
@@ -41,7 +42,7 @@ export default function MessageContainer(props) {
   return (
     <div className={classes.root}>
       <div ref={chatArrayRef} className={classes.chatWindow}>
-        <Message />
+        <Message {...props} />
       </div>
     </div >
   );

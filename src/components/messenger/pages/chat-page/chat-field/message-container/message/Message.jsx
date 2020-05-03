@@ -1,6 +1,9 @@
 import React from 'react';
+import socketIOClient from 'socket.io-client';
+// Styles
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+// Styled Components
 import { Typography, Paper, Avatar } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
@@ -60,23 +63,38 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ChatWindow(props) {
+  const { messages, getMessages, selectedDialog, profile } = props;
   const classes = useStyles();
-  const arrayLength = 20;
+
+  React.useEffect(() => {
+    if (selectedDialog) {
+      getMessages(selectedDialog);
+    }
+  }, [selectedDialog]);
+
+  React.useEffect(() => {
+    const socket = socketIOClient(process.env.REACT_APP_API_URL);
+    socket.on('messages', () => getMessages());
+  }, []);
 
   function setMessages() {
-    return Array.from(new Array(arrayLength)).map((item, index) => {
+    return messages.map((item, index) => {
+      const from = item.from;
+      const me = profile._id;
 
       const message = clsx(classes.message, {
-        [classes.messageLeft]: (index % 2 === 0),
-        [classes.messageRight]: (index % 2 !== 0),
+        [classes.messageLeft]: (from !== me),
+        [classes.messageRight]: (from === me),
       });
-      const messageBody = clsx(classes.messageBody, classes.gridAreaMessageBody, {
-        [classes.messageBodyLeft]: (index % 2 === 0),
-        [classes.messageBodyRight]: (index % 2 !== 0),
+      const messageBody = clsx(
+        classes.messageBody, classes.gridAreaMessageBody, {
+        [classes.messageBodyLeft]: (from !== me),
+        [classes.messageBodyRight]: (from === me),
       });
-      const messageTime = clsx(classes.messageTime, classes.gridAreaMessageTime, {
-        [classes.messageTimeLeft]: (index % 2 === 0),
-        [classes.messageTimeRight]: (index % 2 !== 0),
+      const messageTime = clsx(
+        classes.messageTime, classes.gridAreaMessageTime, {
+        [classes.messageTimeLeft]: (from !== me),
+        [classes.messageTimeRight]: (from === me),
       });
 
       return (
@@ -84,10 +102,10 @@ export default function ChatWindow(props) {
           <div className={message}>
             <Avatar className={classes.gridAreaAvatar} alt="Роджер Гилл" src="" />
             <Paper elevation={0} className={messageBody}>
-              <Typography>Многие думают, что Lorem Ipsum - взятый с потолка псевдо-латинский набор слов, но это не совсем так. Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur", и занялся его поисками в классической латинской литературе.</Typography>
+              <Typography>{item.body}</Typography>
             </Paper>
             <div className={classes.gridAreaEmpty}></div>
-            <Typography color="textSecondary" component="p" variant="caption" className={messageTime}>Вчера, в 12:35</Typography>
+            <Typography color="textSecondary" component="p" variant="caption" className={messageTime}>{item.date}</Typography>
           </div>
         </div>
       );

@@ -42,6 +42,7 @@ export default function UserProfile(props) {
   const userProfileRef = React.useRef();
   const [userProfileWidth, setUserProfileWidth] = React.useState(null);
   const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState('');
 
   React.useEffect(() => {
     customUseWidth(userProfileRef, (value) => {
@@ -49,12 +50,22 @@ export default function UserProfile(props) {
     });
   }, []);
 
-  const handleClickOpen = () => {
+  const handleOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleInput = (event) => {
+    setMessage(event.target.value)
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    props.postMessage({ to: props.selectedUser._id, body: message });
+    setMessage('');
   };
 
   const setUserProfile = () => {
@@ -81,22 +92,26 @@ export default function UserProfile(props) {
             >{email}</Typography>
           </div>
           <div className={classes.userProfileSection}>
-            <Button variant="contained" color="primary" onClick={handleClickOpen}>Написать сообщение</Button>
+            <Button variant="contained" color="primary" onClick={handleOpen}>Написать сообщение</Button>
             <Dialog open={open} onClose={handleClose}>
-              <DialogTitle>Отправте пользователю сообщение</DialogTitle>
-              <DialogContent className={classes.userProfileSection}>
-                <FormControl>
-                  <Input
-                    placeholder="Сообщение"
-                    autoFocus
-                    multiline
-                  />
-                </FormControl>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose}>Отмена</Button>
-                <Button onClick={handleClose}>Отправить</Button>
-              </DialogActions>
+              <form onSubmit={handleSubmit}>
+                <DialogTitle>Отправте пользователю сообщение</DialogTitle>
+                <DialogContent className={classes.userProfileSection}>
+                  <FormControl>
+                    <Input
+                      placeholder="Сообщение"
+                      autoFocus
+                      multiline
+                      value={message}
+                      onChange={handleInput}
+                    />
+                  </FormControl>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Отмена</Button>
+                  <Button onClick={handleClose} type="submit">Отправить</Button>
+                </DialogActions>
+              </form>
             </Dialog>
           </div>
         </div>

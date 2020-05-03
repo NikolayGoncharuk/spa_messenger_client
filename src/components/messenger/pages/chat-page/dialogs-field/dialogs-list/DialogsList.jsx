@@ -28,14 +28,32 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DialogsList(props) {
-  const { loading, dialogs, getDialogs, profile } = props;
+  const { loading, dialogs, getDialogs, profile, users, selectedDialog, setSelectedDialog } = props;
   const classes = useStyles();
 
   React.useEffect(() => {
     let socket = socketIOClient(process.env.REACT_APP_API_URL);
-    socket.on('Message', () => getDialogs());
-    return () => socket.removeListener('Message');
+    socket.on('messages', () => getDialogs());
   }, []);
+
+  // вернуть имя участника, id которого не совпадает с id авторизованного пользователя 
+  const getParticipantName = (participants) => {
+    let participantId = null;
+    for (let i = 0; i < participants.length; i++) {
+      if (participants[i] !== profile._id) {
+        participantId = participants[i];
+      };
+    };
+    for (let i = 0; i < users.length; i++) {
+      if (users[i]._id === participantId) {
+        return `${users[i].firstName} ${users[i].lastName}`;
+      };
+    };
+  };
+
+  const handleListItem = (_id) => {
+    setSelectedDialog(_id);
+  };
 
   const bootArray = new Array(10);
 
@@ -48,6 +66,8 @@ export default function DialogsList(props) {
               <ListItem
                 alignItems="flex-start"
                 button={!loading}
+                selected={selectedDialog === item._id}
+                onClick={() => handleListItem(item._id)}
               >
                 <ListItemAvatar>
                   <StyledBadge
@@ -60,13 +80,13 @@ export default function DialogsList(props) {
                   </StyledBadge>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={`${item.firstName} ${item.lastName}`}
+                  primary={getParticipantName(item.participants)}
                   primaryTypographyProps={{ noWrap: true }}
-                  secondary="Maximum number of rows to display when multiline option."
+                  secondary={item.lastMessage}
                   secondaryTypographyProps={{ noWrap: true }}
                 />
                 <div className={classes.listItemTag}>
-                  <Typography color="textSecondary" variant="caption">12.04</Typography>
+                  <Typography color="textSecondary" variant="caption">{item.date}</Typography>
                   <DoneAllIcon style={{ marginTop: '2px' }} fontSize="inherit" />
                 </div>
               </ListItem>

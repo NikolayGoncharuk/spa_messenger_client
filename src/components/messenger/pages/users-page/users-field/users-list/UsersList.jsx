@@ -24,11 +24,10 @@ export default function UsersList(props) {
 
   React.useEffect(() => {
     const socket = socketIOClient(process.env.REACT_APP_API_URL);
-    socket.on('User', () => getUsers());
-    return () => socket.removeListener('User');
+    socket.on('users', () => getUsers());
   }, []);
 
-  const handleListItemClick = (item) => {
+  const handleListItem = (item) => {
     setSelectedListItem(item._id);
     setSelectedUser(item);
   };
@@ -45,7 +44,7 @@ export default function UsersList(props) {
                 alignItems="flex-start"
                 button
                 selected={selectedListItem === item._id}
-                onClick={() => handleListItemClick(item)}
+                onClick={() => handleListItem(item)}
               >
                 <ListItemAvatar>
                   <StyledBadge
