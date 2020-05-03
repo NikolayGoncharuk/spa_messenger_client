@@ -1,5 +1,8 @@
 import React from 'react';
+import socketIOClient from 'socket.io-client';
+// Styles
 import { makeStyles } from '@material-ui/core/styles';
+// Styled Components
 import { List, ListItem, ListItemText, ListItemAvatar } from '@material-ui/core';
 import { Divider, Avatar, Paper, Box } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -15,19 +18,36 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function UsersList(props) {
-  const { users, loading } = props;
+  const { loading, users, getUsers, setSelectedUser } = props;
   const classes = useStyles();
+  const [selectedListItem, setSelectedListItem] = React.useState(null);
+
+  React.useEffect(() => {
+    const socket = socketIOClient(process.env.REACT_APP_API_URL);
+    socket.on('User', () => getUsers());
+    return () => socket.removeListener('User');
+  }, []);
+
+  const handleListItemClick = (item) => {
+    setSelectedListItem(item._id);
+    setSelectedUser(item);
+  };
 
   const bootArray = new Array(10);
 
   function setDialogsItems() {
     return (
       (loading ? Array.from(bootArray) : users).map((item, index) => {
-        return (
-          <React.Fragment key={index}>
-            <ListItem button={!loading} alignItems="flex-start">
-              <ListItemAvatar>
-                {item ?
+        if (item) {
+          return (
+            <React.Fragment key={index}>
+              <ListItem
+                alignItems="flex-start"
+                button
+                selected={selectedListItem === item._id}
+                onClick={() => handleListItemClick(item)}
+              >
+                <ListItemAvatar>
                   <StyledBadge
                     invisible={!item.status}
                     overlap="circle"
@@ -35,26 +55,34 @@ export default function UsersList(props) {
                     variant="dot"
                   >
                     <Avatar alt={`${item.firstName} ${item.lastName}`} src={item.avatar} />
-                  </StyledBadge> :
-                  <Skeleton variant="circle" width={40} height={40} />
-                }
-              </ListItemAvatar>
-              {item ?
+                  </StyledBadge>
+                </ListItemAvatar>
                 <ListItemText
                   primary={`${item.firstName} ${item.lastName}`}
                   primaryTypographyProps={{ noWrap: true }}
                   secondary="Maximum number of rows to display when multiline option."
                   secondaryTypographyProps={{ noWrap: true }}
-                /> :
+                />
+              </ListItem>
+              {index + 1 < users.length && <Divider variant="inset" component="li" />}
+            </React.Fragment>
+          );
+        } else {
+          return (
+            <React.Fragment key={index}>
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Skeleton variant="circle" width={40} height={40} />
+                </ListItemAvatar>
                 <Box pt={0.5} pb={1} className={classes.skeletonWrapper}>
                   <Skeleton height="24px" width="60%" />
                   <Skeleton />
                 </Box>
-              }
-            </ListItem>
-            {index + 1 < (item ? users : bootArray).length && <Divider variant="inset" component="li" />}
-          </React.Fragment>
-        );
+              </ListItem>
+              {index + 1 < bootArray.length && <Divider variant="inset" component="li" />}
+            </React.Fragment>
+          );
+        };
       })
     );
   };

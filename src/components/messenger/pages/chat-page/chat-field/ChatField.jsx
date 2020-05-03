@@ -1,5 +1,5 @@
 import React from 'react';
-import { setDynamicWidth } from '../../../setDynamicWidth';
+import { customUseWidth } from '../../../customUseWidth';
 // Components
 import ChatHeader from './chat-header/ChatHeader';
 import MessageContainer from './message-container/MessageContainer';
@@ -22,7 +22,7 @@ export default function ChatField() {
   const [chatFieldWidth, setChatFieldWidth] = React.useState(null);
 
   React.useEffect(() => {
-    setDynamicWidth(chatFieldRef, (value) => {
+    customUseWidth(chatFieldRef, (value) => {
       setChatFieldWidth(value);
     });
   }, []);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import socketIOClient from 'socket.io-client';
 // STyles
 import { makeStyles } from '@material-ui/core/styles';
 // Icons
@@ -27,66 +27,77 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const mapStateToProps = (state) => ({
-  users: state.users.users,
-});
+export default function DialogsList(props) {
+  const { loading, dialogs, getDialogs, profile } = props;
+  const classes = useStyles();
 
-export default connect(mapStateToProps, {})(
-  function DialogsList(props) {
-    const { dialogs, loading } = props;
-    const classes = useStyles();
+  React.useEffect(() => {
+    let socket = socketIOClient(process.env.REACT_APP_API_URL);
+    socket.on('Message', () => getDialogs());
+    return () => socket.removeListener('Message');
+  }, []);
 
-    const bootArray = new Array(10);
+  const bootArray = new Array(10);
 
-    function setDialogsItems() {
-      return (
-        (loading ? Array.from(bootArray) : dialogs).map((item, index) => {
+  function setDialogsItems() {
+    return (
+      (loading ? Array.from(bootArray) : dialogs).map((item, index) => {
+        if (item) {
           return (
             <React.Fragment key={index}>
-              <ListItem button={!loading} alignItems="flex-start">
+              <ListItem
+                alignItems="flex-start"
+                button={!loading}
+              >
                 <ListItemAvatar>
-                  {item ?
-                    <StyledBadge
-                      invisible={!item.status}
-                      overlap="circle"
-                      anchorOrigin={{ vertical: 'bottom', horizontal: 'right', }}
-                      variant="dot"
-                    >
-                      <Avatar alt={`${item.firstName} ${item.lastName}`} src={item.avatar} />
-                    </StyledBadge> :
-                    <Skeleton variant="circle" width={40} height={40} />
-                  }
+                  <StyledBadge
+                    invisible={!item.status}
+                    overlap="circle"
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right', }}
+                    variant="dot"
+                  >
+                    <Avatar alt={`${item.firstName} ${item.lastName}`} src={item.avatar} />
+                  </StyledBadge>
                 </ListItemAvatar>
-                {item ?
-                  <ListItemText
-                    primary={`${item.firstName} ${item.lastName}`}
-                    primaryTypographyProps={{ noWrap: true }}
-                    secondary="Maximum number of rows to display when multiline option is set to true."
-                    secondaryTypographyProps={{ noWrap: true }}
-                  /> :
-                  <Box pt={0.5} pb={1} className={classes.skeletonWrapper}>
-                    <Skeleton height="24px" width="60%" />
-                    <Skeleton />
-                  </Box>
-                }
-                {item && <div className={classes.listItemTag}>
+                <ListItemText
+                  primary={`${item.firstName} ${item.lastName}`}
+                  primaryTypographyProps={{ noWrap: true }}
+                  secondary="Maximum number of rows to display when multiline option."
+                  secondaryTypographyProps={{ noWrap: true }}
+                />
+                <div className={classes.listItemTag}>
                   <Typography color="textSecondary" variant="caption">12.04</Typography>
                   <DoneAllIcon style={{ marginTop: '2px' }} fontSize="inherit" />
-                </div>}
+                </div>
               </ListItem>
-              {index + 1 < (item ? dialogs : bootArray).length && <Divider variant="inset" component="li" />}
+              {index + 1 < dialogs.length && <Divider variant="inset" component="li" />}
             </React.Fragment>
           );
-        })
-      );
-    };
-
-    return (
-      <Paper className={classes.root}>
-        <List>
-          {setDialogsItems()}
-        </List>
-      </Paper>
+        } else {
+          return (
+            <React.Fragment key={index}>
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Skeleton variant="circle" width={40} height={40} />
+                </ListItemAvatar>
+                <Box pt={0.5} pb={1} className={classes.skeletonWrapper}>
+                  <Skeleton height="24px" width="60%" />
+                  <Skeleton />
+                </Box>
+              </ListItem>
+              {index + 1 < bootArray.length && <Divider variant="inset" component="li" />}
+            </React.Fragment>
+          );
+        };
+      })
     );
-  }
-);
+  };
+
+  return (
+    <Paper className={classes.root}>
+      <List>
+        {setDialogsItems()}
+      </List>
+    </Paper>
+  );
+};

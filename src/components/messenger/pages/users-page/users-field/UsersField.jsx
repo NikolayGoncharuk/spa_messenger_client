@@ -1,5 +1,5 @@
 import React from 'react';
-import { setDynamicWidth } from '../../../setDynamicWidth';
+import { customUseWidth } from '../../../customUseWidth';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Styled Components
@@ -38,7 +38,7 @@ export default function UsersField(props) {
   const [usersWidth, setUsersWidth] = React.useState(null);
 
   React.useEffect(() => {
-    setDynamicWidth(usersRef, (value) => {
+    customUseWidth(usersRef, (value) => {
       setUsersWidth(value);
     });
   }, []);

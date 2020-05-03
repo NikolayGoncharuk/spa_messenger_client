@@ -1,4 +1,4 @@
-export const setDynamicWidth = (ref, setWidth) => {
+export const customUseWidth = (ref, setWidth) => {
   const getRefWidth = () => {
     if (ref.current) {
       return (Math.max(

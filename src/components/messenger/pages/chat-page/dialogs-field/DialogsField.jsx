@@ -1,5 +1,5 @@
 import React from 'react';
-import { setDynamicWidth } from '../../../setDynamicWidth';
+import { customUseWidth } from '../../../customUseWidth';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Styles Components
@@ -38,7 +38,7 @@ export default function DialogsField(props) {
   const [dialogsWidth, setDialogsWidth] = React.useState(null);
 
   React.useEffect(() => {
-    setDynamicWidth(dialogsRef, (value) => {
+    customUseWidth(dialogsRef, (value) => {
       setDialogsWidth(value);
     });
   }, []);

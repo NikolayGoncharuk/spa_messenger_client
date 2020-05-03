@@ -1,11 +1,15 @@
 import React from 'react';
-import { setDynamicWidth } from '../../../setDynamicWidth';
+import { customUseWidth } from '../../../customUseWidth';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
+// Styled Components
+import { Typography, Avatar, Button, FormControl, Input } from '@material-ui/core';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   userProfileContainer: {
     position: 'absolute',
+    display: 'flex',
     overflow: 'auto',
     height: '100%',
     padding: theme.spacing(3),
@@ -18,18 +22,87 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: 'rgba(127, 127, 127, 0.3)',
     },
   },
+  userProfile: {
+    margin: 'auto',
+    textAlign: 'center',
+  },
+  userProfileSection: {
+    paddingBottom: theme.spacing(3),
+  },
+  userProfileAvatar: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: theme.spacing(24),
+    height: theme.spacing(24),
+  },
 }));
 
-export default function UserProfile() {
+export default function UserProfile(props) {
   const classes = useStyles();
   const userProfileRef = React.useRef();
   const [userProfileWidth, setUserProfileWidth] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
-    setDynamicWidth(userProfileRef, (value) => {
+    customUseWidth(userProfileRef, (value) => {
       setUserProfileWidth(value);
     });
   }, []);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const setUserProfile = () => {
+    if (props.selectedUser) {
+      const { selectedUser: { firstName, lastName, email, avatar } } = props;
+      return (
+        <div className={classes.userProfile}>
+          <div className={classes.userProfileSection}>
+            <Avatar
+              className={classes.userProfileAvatar}
+              alt={`${firstName} ${lastName}`}
+              src={avatar}
+            />
+          </div>
+          <div className={classes.userProfileSection}>
+            <Typography
+              gutterBottom={true}
+              variant="h6"
+            >{`${firstName} ${lastName}`}</Typography>
+            <Typography
+              noWrap
+              color="textSecondary"
+              variant="body2"
+            >{email}</Typography>
+          </div>
+          <div className={classes.userProfileSection}>
+            <Button variant="contained" color="primary" onClick={handleClickOpen}>Написать сообщение</Button>
+            <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>Отправте пользователю сообщение</DialogTitle>
+              <DialogContent className={classes.userProfileSection}>
+                <FormControl>
+                  <Input
+                    placeholder="Сообщение"
+                    autoFocus
+                    multiline
+                  />
+                </FormControl>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Отмена</Button>
+                <Button onClick={handleClose}>Отправить</Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+        </div>
+      );
+    };
+  };
 
   return (
     <div ref={userProfileRef}>
@@ -37,8 +110,8 @@ export default function UserProfile() {
         style={{ width: userProfileWidth }}
         className={classes.userProfileContainer}
       >
-
-      </div>
+        {setUserProfile()}
+      </div >
     </div>
   );
 };

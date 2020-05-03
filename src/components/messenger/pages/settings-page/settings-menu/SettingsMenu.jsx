@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setDarkMode } from '../../../../../store/reducers/themeReducer';
-import { setDynamicWidth } from '../../../setDynamicWidth';
+import { customUseWidth } from '../../../customUseWidth';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Styled Components
@@ -46,7 +46,7 @@ export default connect(mapStateToProps, { setDarkMode })(function SettingsMenu(p
   const [settingsMenuWidth, setSettingsMenuWidth] = React.useState(null);
 
   React.useEffect(() => {
-    setDynamicWidth(settingsMenuRef, (value) => {
+    customUseWidth(settingsMenuRef, (value) => {
       setSettingsMenuWidth(value);
     });
   }, []);

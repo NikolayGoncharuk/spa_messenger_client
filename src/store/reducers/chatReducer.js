@@ -31,7 +31,7 @@ export const getDialogs = () => async (dispatch) => {
   };
 };
 
-export const initialMessenger = (setLoading) => async (dispatch) => {
+export const initializeMessenger = (setLoading) => async (dispatch) => {
   if (localStorage.token) {
     await getDialogs()(dispatch);
     await getUsers()(dispatch);

@@ -37,7 +37,7 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { logout })(function Menu(props) {
-  const { isAuth, profile: { firstName, lastName, email } } = props.auth;
+  const { isAuth, profile: { firstName, lastName, email, avatar } } = props.auth;
   const classes = useStyles();
 
   const setListItem = () => {
@@ -67,7 +67,7 @@ export default connect(mapStateToProps, { logout })(function Menu(props) {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right', }}
             variant="dot"
           >
-            <Avatar className={classes.profileAvatar} alt={`${firstName} ${lastName}`} src="" />
+            <Avatar className={classes.profileAvatar} alt={`${firstName} ${lastName}`} src={avatar} />
           </StyledBadge>
         </div>
         <div>

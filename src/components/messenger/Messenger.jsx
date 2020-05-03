@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { initialMessenger } from '../../store/reducers/chatReducer';
+import { initializeMessenger } from '../../store/reducers/chatReducer';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { nav } from '../../services/routes/routes';
 // Styles
@@ -40,20 +40,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const mapStateToProps = (state) => ({
-  users: state.users.users,
-  dialogs: state.chat.dialogs,
-});
-
-export default connect(mapStateToProps, { initialMessenger })(
+export default connect(null, { initializeMessenger })(
   function Messenger(props) {
-    const { users, dialogs, initialMessenger } = props;
     const classes = useStyles();
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
       setLoading(true);
-      initialMessenger(() => setLoading(false));
+      props.initializeMessenger(() => setLoading(false));
     }, []);
 
     return (
@@ -64,10 +58,10 @@ export default connect(mapStateToProps, { initialMessenger })(
         <div className={classes.content}>
           <Switch>
             <Route path={nav.chat.path} >
-              <ChatPage dialogs={dialogs} loading={loading} />
+              <ChatPage loading={loading} />
             </Route>
             <Route path={nav.users.path}>
-              <UsersPage users={users} loading={loading} />
+              <UsersPage loading={loading} />
             </Route>
             <Route path={nav.settings.path} component={SettingsPage} />
             <Redirect to={nav.chat.path} />

@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { getDialogs } from '../../../../store/reducers/chatReducer';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Components
@@ -30,17 +32,23 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ChatPage(props) {
-  const classes = useStyles();
+const mapStateToProps = (state) => ({
+  dialogs: state.chat.dialogs,
+});
 
-  return (
-    <div className={classes.root}>
-      <div className={classes.dialogs}>
-        <DialogsField {...props} />
+export default connect(mapStateToProps, { getDialogs })(
+  function ChatPage(props) {
+    const classes = useStyles();
+
+    return (
+      <div className={classes.root}>
+        <div className={classes.dialogs}>
+          <DialogsField {...props} />
+        </div>
+        <div className={classes.chat}>
+          <ChatField />
+        </div>
       </div>
-      <div className={classes.chat}>
-        <ChatField />
-      </div>
-    </div>
-  );
-};
+    );
+  }
+);

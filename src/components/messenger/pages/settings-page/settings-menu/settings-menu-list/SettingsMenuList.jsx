@@ -22,10 +22,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function SettingsMenuList() {
   const classes = useStyles();
-  const [selectedMenuItem, setSelectedMenuItem] = React.useState(null);
+  const [selectedListItem, setSelectedListItem] = React.useState(null);
 
   const handleListItemClick = (item) => {
-    setSelectedMenuItem(item);
+    setSelectedListItem(item);
   };
 
   const setAccountSettingsMenu = () => {
@@ -36,7 +36,7 @@ export default function SettingsMenuList() {
             button
             disabled={item.disabled}
             alignItems="flex-start"
-            selected={selectedMenuItem === item.primary}
+            selected={selectedListItem === item.primary}
             onClick={() => handleListItemClick(item.primary)}
           >
             <ListItemText
@@ -60,7 +60,7 @@ export default function SettingsMenuList() {
             button
             disabled={item.disabled}
             alignItems="flex-start"
-            selected={selectedMenuItem === item.primary}
+            selected={selectedListItem === item.primary}
             onClick={() => handleListItemClick(item.primary)}
           >
             <ListItemIcon>{item.icon}</ListItemIcon>
@@ -83,7 +83,7 @@ export default function SettingsMenuList() {
             button
             disabled={item.disabled}
             alignItems="flex-start"
-            selected={selectedMenuItem === item.primary}
+            selected={selectedListItem === item.primary}
             onClick={() => handleListItemClick(item.primary)}
           >
             <ListItemIcon>{item.icon}</ListItemIcon>
