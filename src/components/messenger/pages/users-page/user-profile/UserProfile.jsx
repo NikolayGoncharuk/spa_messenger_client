@@ -38,6 +38,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function UserProfile(props) {
+  const { selectedUser, postMessage } = props;
   const classes = useStyles();
   const userProfileRef = React.useRef();
   const [userProfileWidth, setUserProfileWidth] = React.useState(null);
@@ -64,13 +65,13 @@ export default function UserProfile(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.postMessage({ to: props.selectedUser._id, body: message });
+    postMessage({ to: selectedUser._id, body: message });
     setMessage('');
   };
 
   const setUserProfile = () => {
-    if (props.selectedUser) {
-      const { selectedUser: { firstName, lastName, email, avatar } } = props;
+    if (selectedUser) {
+      const { firstName, lastName, email, avatar } = selectedUser;
       return (
         <div className={classes.userProfile}>
           <div className={classes.userProfileSection}>

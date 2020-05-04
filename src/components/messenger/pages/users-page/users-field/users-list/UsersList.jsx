@@ -18,19 +18,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function UsersList(props) {
-  const { loading, users, getUsers, setSelectedUser } = props;
+  const { loading, users, getUsers, selectedUser, setSelectedUser } = props;
   const classes = useStyles();
-  const [selectedListItem, setSelectedListItem] = React.useState(null);
 
   React.useEffect(() => {
     const socket = socketIOClient(process.env.REACT_APP_API_URL);
     socket.on('users', () => getUsers());
   }, []);
-
-  const handleListItem = (item) => {
-    setSelectedListItem(item._id);
-    setSelectedUser(item);
-  };
 
   const bootArray = new Array(10);
 
@@ -43,8 +37,8 @@ export default function UsersList(props) {
               <ListItem
                 alignItems="flex-start"
                 button
-                selected={selectedListItem === item._id}
-                onClick={() => handleListItem(item)}
+                selected={selectedUser && selectedUser._id === item._id}
+                onClick={() => setSelectedUser(item)}
               >
                 <ListItemAvatar>
                   <StyledBadge

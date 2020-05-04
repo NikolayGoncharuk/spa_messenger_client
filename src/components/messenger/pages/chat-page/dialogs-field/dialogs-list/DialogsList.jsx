@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DialogsList(props) {
-  const { loading, dialogs, getDialogs, profile, users, selectedDialog, setSelectedDialog } = props;
+  const { loading, profile, users, dialogs, getDialogs, selectedDialog, setSelectedDialog } = props;
   const classes = useStyles();
 
   React.useEffect(() => {
@@ -36,7 +36,7 @@ export default function DialogsList(props) {
     socket.on('messages', () => getDialogs());
   }, []);
 
-  // вернуть имя участника, id которого не совпадает с id авторизованного пользователя 
+  // Вернуть имя участника, id которого не совпадает с id авторизованного пользователя 
   const getParticipantName = (participants) => {
     let participantId = null;
     for (let i = 0; i < participants.length; i++) {
@@ -51,10 +51,6 @@ export default function DialogsList(props) {
     };
   };
 
-  const handleListItem = (_id) => {
-    setSelectedDialog(_id);
-  };
-
   const bootArray = new Array(10);
 
   function setDialogsItems() {
@@ -65,9 +61,9 @@ export default function DialogsList(props) {
             <React.Fragment key={index}>
               <ListItem
                 alignItems="flex-start"
-                button={!loading}
-                selected={selectedDialog === item._id}
-                onClick={() => handleListItem(item._id)}
+                button
+                selected={selectedDialog && selectedDialog._id === item._id}
+                onClick={() => setSelectedDialog(item)}
               >
                 <ListItemAvatar>
                   <StyledBadge

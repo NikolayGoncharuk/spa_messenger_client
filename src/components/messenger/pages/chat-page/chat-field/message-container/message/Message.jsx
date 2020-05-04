@@ -68,7 +68,7 @@ export default function ChatWindow(props) {
 
   React.useEffect(() => {
     if (selectedDialog) {
-      getMessages(selectedDialog);
+      getMessages(selectedDialog._id);
     }
   }, [selectedDialog]);
 

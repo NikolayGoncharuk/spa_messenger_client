@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { getDialogs, getMessages } from '../../../../store/reducers/chatReducer';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Components
@@ -32,35 +30,31 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const mapStateToProps = (state) => ({
-  users: state.users.users,
-  profile: state.auth.profile,
-  dialogs: state.chat.dialogs,
-  messages: state.chat.messages,
-});
+export default function ChatPage(props) {
+  const classes = useStyles();
+  const [selectedDialog, setSelectedDialog] = React.useState(null);
 
-export default connect(mapStateToProps, { getDialogs, getMessages })(
-  function ChatPage(props) {
-    const classes = useStyles();
-    const [selectedDialog, setSelectedDialog] = React.useState(null);
-
-    return (
-      <div className={classes.root}>
-        <div className={classes.dialogs}>
-          <DialogsField {...props}
-            selectedDialog={selectedDialog}
-            setSelectedDialog={setSelectedDialog}
-          />
-        </div>
-        <div className={classes.chat}>
-          <ChatField
-            profile={props.profile}
-            messages={props.messages}
-            getMessages={props.getMessages}
-            selectedDialog={selectedDialog}
-          />
-        </div>
+  return (
+    <div className={classes.root}>
+      <div className={classes.dialogs}>
+        <DialogsField
+          selectedDialog={selectedDialog}
+          setSelectedDialog={setSelectedDialog}
+          loading={props.loading}
+          profile={props.profile}
+          users={props.users}
+          dialogs={props.dialogs}
+          getDialogs={props.getDialogs}
+        />
       </div>
-    );
-  }
-);
+      <div className={classes.chat}>
+        <ChatField
+          selectedDialog={selectedDialog}
+          profile={props.profile}
+          messages={props.messages}
+          getMessages={props.getMessages}
+        />
+      </div>
+    </div>
+  );
+};
