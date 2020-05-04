@@ -53,6 +53,7 @@ export default function ChatPage(props) {
           profile={props.profile}
           messages={props.messages}
           getMessages={props.getMessages}
+          postMessage={props.postMessage}
         />
       </div>
     </div>

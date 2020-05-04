@@ -65,6 +65,7 @@ const useStyles = makeStyles(theme => ({
 export default function ChatWindow(props) {
   const { messages, getMessages, selectedDialog, profile } = props;
   const classes = useStyles();
+  const [newMassage, setNewMessage] = React.useState('');
 
   React.useEffect(() => {
     if (selectedDialog) {
@@ -73,8 +74,16 @@ export default function ChatWindow(props) {
   }, [selectedDialog]);
 
   React.useEffect(() => {
+    if (newMassage) {
+      getMessages(selectedDialog._id);
+    }
+  }, [newMassage]);
+
+  React.useEffect(() => {
     const socket = socketIOClient(process.env.REACT_APP_API_URL);
-    socket.on('messages', () => getMessages());
+    socket.on('messages', (data) => {
+      getMessages(setNewMessage(data))
+    });
   }, []);
 
   function setMessages() {

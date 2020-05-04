@@ -32,7 +32,11 @@ export default function ChatField(props) {
       <div style={{ width: chatFieldWidth }} className={classes.chatContainer}>
         <ChatHeader />
         <MessageContainer {...props} />
-        <SendMessageForm />
+        <SendMessageForm
+          postMessage={props.postMessage}
+          selectedDialog={props.selectedDialog}
+          profile={props.profile}
+        />
       </div>
     </div>
   );

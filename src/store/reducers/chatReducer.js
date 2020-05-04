@@ -14,6 +14,7 @@ export default function usersReducer(state = initialState, action) {
     case SET_DIALOGS:
       return { ...state, dialogs: action.dialogs };
     case SET_MESSAGES:
+      debugger
       return { ...state, messages: action.messages };
     default:
       return state;

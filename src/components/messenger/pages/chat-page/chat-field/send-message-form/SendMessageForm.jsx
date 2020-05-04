@@ -37,7 +37,28 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ChatToolbar(props) {
+  const { postMessage, selectedDialog, profile } = props;
   const classes = useStyles();
+  const [message, setMessage] = React.useState('');
+
+  const handleInput = (event) => {
+    setMessage(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const participants = selectedDialog.participants;
+    let participantId = null;
+    for (let i = 0; i < participants.length; i++) {
+      if (participants[i] !== profile._id) {
+        participantId = participants[i];
+      };
+    };
+
+    postMessage({ to: participantId, body: message });
+    setMessage('');
+  };
 
   return (
     <Paper component="form" className={classes.root}>
@@ -55,6 +76,8 @@ export default function ChatToolbar(props) {
           fullWidth
           multiline={true}
           placeholder="Введите сообщение…"
+          value={message}
+          onChange={handleInput}
         />
         <div className={classes.iconsContainer}>
           <div>
@@ -63,7 +86,10 @@ export default function ChatToolbar(props) {
             </IconButton>
           </div>
           <div>
-            <IconButton type="submit">
+            <IconButton
+              type="submit"
+              onClick={handleSubmit}
+            >
               <SendIcon />
             </IconButton>
           </div>
