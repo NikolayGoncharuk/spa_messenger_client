@@ -48,13 +48,15 @@ export default function ChatPage(props) {
         />
       </div>
       <div className={classes.chat}>
-        <ChatField
-          selectedDialog={selectedDialog}
-          profile={props.profile}
-          messages={props.messages}
-          getMessages={props.getMessages}
-          postMessage={props.postMessage}
-        />
+        {selectedDialog && (
+          <ChatField
+            selectedDialog={selectedDialog}
+            profile={props.profile}
+            messages={props.messages}
+            getMessages={props.getMessages}
+            postMessage={props.postMessage}
+          />
+        )}
       </div>
     </div>
   );

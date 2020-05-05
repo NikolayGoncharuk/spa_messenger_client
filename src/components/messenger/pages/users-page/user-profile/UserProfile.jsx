@@ -70,54 +70,52 @@ export default function UserProfile(props) {
   };
 
   const setUserProfile = () => {
-    if (selectedUser) {
-      const { firstName, lastName, email, avatar } = selectedUser;
-      return (
-        <div className={classes.userProfile}>
-          <div className={classes.userProfileSection}>
-            <Avatar
-              className={classes.userProfileAvatar}
-              alt={`${firstName} ${lastName}`}
-              src={avatar}
-            />
-          </div>
-          <div className={classes.userProfileSection}>
-            <Typography
-              gutterBottom={true}
-              variant="h6"
-            >{`${firstName} ${lastName}`}</Typography>
-            <Typography
-              noWrap
-              color="textSecondary"
-              variant="body2"
-            >{email}</Typography>
-          </div>
-          <div className={classes.userProfileSection}>
-            <Button variant="contained" color="primary" onClick={handleOpen}>Написать сообщение</Button>
-            <Dialog open={open} onClose={handleClose}>
-              <form onSubmit={handleSubmit}>
-                <DialogTitle>Отправте пользователю сообщение</DialogTitle>
-                <DialogContent className={classes.userProfileSection}>
-                  <FormControl>
-                    <Input
-                      placeholder="Сообщение"
-                      autoFocus
-                      multiline
-                      value={message}
-                      onChange={handleInput}
-                    />
-                  </FormControl>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleClose}>Отмена</Button>
-                  <Button onClick={handleClose} type="submit">Отправить</Button>
-                </DialogActions>
-              </form>
-            </Dialog>
-          </div>
+    const { firstName, lastName, email, avatar } = selectedUser;
+    return (
+      <div className={classes.userProfile}>
+        <div className={classes.userProfileSection}>
+          <Avatar
+            className={classes.userProfileAvatar}
+            alt={`${firstName} ${lastName}`}
+            src={avatar}
+          />
         </div>
-      );
-    };
+        <div className={classes.userProfileSection}>
+          <Typography
+            gutterBottom={true}
+            variant="h6"
+          >{`${firstName} ${lastName}`}</Typography>
+          <Typography
+            noWrap
+            color="textSecondary"
+            variant="body2"
+          >{email}</Typography>
+        </div>
+        <div className={classes.userProfileSection}>
+          <Button variant="contained" color="primary" onClick={handleOpen}>Написать сообщение</Button>
+          <Dialog open={open} onClose={handleClose}>
+            <form onSubmit={handleSubmit}>
+              <DialogTitle>Отправте пользователю сообщение</DialogTitle>
+              <DialogContent className={classes.userProfileSection}>
+                <FormControl>
+                  <Input
+                    placeholder="Сообщение"
+                    autoFocus
+                    multiline
+                    value={message}
+                    onChange={handleInput}
+                  />
+                </FormControl>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Отмена</Button>
+                <Button onClick={handleClose} type="submit">Отправить</Button>
+              </DialogActions>
+            </form>
+          </Dialog>
+        </div>
+      </div>
+    );
   };
 
   return (

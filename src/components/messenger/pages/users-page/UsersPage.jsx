@@ -45,10 +45,12 @@ export default function UsersPage(props) {
         />
       </div>
       <div className={classes.userProfile}>
-        <UserProfile
-          selectedUser={selectedUser}
-          postMessage={props.postMessage}
-        />
+        {selectedUser && (
+          <UserProfile
+            selectedUser={selectedUser}
+            postMessage={props.postMessage}
+          />
+        )}
       </div>
     </div>
   );
