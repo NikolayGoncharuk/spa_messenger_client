@@ -7,6 +7,7 @@ import { nav } from '../../services/routes/routes';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Components
+import Header from './header/Header';
 import Sidebar from './sidebar/Sidebar';
 import ChatPage from './pages/chat-page/ChatPage';
 import UsersPage from './pages/users-page/UsersPage';

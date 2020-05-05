@@ -14,7 +14,6 @@ export default function usersReducer(state = initialState, action) {
     case SET_DIALOGS:
       return { ...state, dialogs: action.dialogs };
     case SET_MESSAGES:
-      debugger
       return { ...state, messages: action.messages };
     default:
       return state;
@@ -48,7 +47,7 @@ export const getDialogs = () => async (dispatch) => {
 };
 
 export const postMessage = ({ to, body }) => async (dispatch) => {
-  const data = await chatApi.postMessage({ to, body });
+  await chatApi.postMessage({ to, body });
 };
 
 export const getMessages = (id) => async (dispatch) => {

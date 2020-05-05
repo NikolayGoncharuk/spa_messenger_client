@@ -1,6 +1,9 @@
 import React from 'react';
+// Styles
 import { makeStyles, fade } from '@material-ui/core/styles';
+// Styled Components
 import { Paper, InputBase, IconButton } from '@material-ui/core';
+// Icons
 import MoodIcon from '@material-ui/icons/Mood';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import SendIcon from '@material-ui/icons/Send';
@@ -45,19 +48,28 @@ export default function ChatToolbar(props) {
     setMessage(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
+  // Определяет id получателя и формирует тело запроса
+  const setPostMessage = (event) => {
     const participants = selectedDialog.participants;
-    let participantId = null;
     for (let i = 0; i < participants.length; i++) {
       if (participants[i] !== profile._id) {
-        participantId = participants[i];
+        event.preventDefault();
+        postMessage({ to: participants[i], body: message });
+        setMessage('');
       };
     };
+  };
 
-    postMessage({ to: participantId, body: message });
-    setMessage('');
+  // Отправка сообщения по клику
+  const handleButtonSubmit = (event) => {
+    setPostMessage(event);
+  };
+
+  // Отправка сообщения по нажатию Enter
+  const handleInputSubmit = (event) => {
+    if (event.key === 'Enter') {
+      setPostMessage(event);
+    };
   };
 
   return (
@@ -78,6 +90,7 @@ export default function ChatToolbar(props) {
           placeholder="Введите сообщение…"
           value={message}
           onChange={handleInput}
+          onKeyDown={handleInputSubmit}
         />
         <div className={classes.iconsContainer}>
           <div>
@@ -88,7 +101,7 @@ export default function ChatToolbar(props) {
           <div>
             <IconButton
               type="submit"
-              onClick={handleSubmit}
+              onClick={handleButtonSubmit}
             >
               <SendIcon />
             </IconButton>

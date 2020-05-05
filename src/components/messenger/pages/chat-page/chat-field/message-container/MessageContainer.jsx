@@ -36,8 +36,8 @@ export default function MessageContainer(props) {
       chatArrayRef.current.offsetHeight,
       chatArrayRef.current.clientHeight,
     ));
-    chatArrayRef.current.scrollTop = chatArrayHeight;
-  }, [chatArrayHeight]);
+    chatArrayRef.current.scrollBy({ top: chatArrayHeight, behavior: 'smooth' });
+  });
 
   return (
     <div className={classes.root}>
