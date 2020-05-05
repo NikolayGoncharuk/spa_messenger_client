@@ -1,5 +1,4 @@
 import React from 'react';
-import socketIOClient from 'socket.io-client';
 // STyles
 import { makeStyles } from '@material-ui/core/styles';
 // Icons
@@ -28,13 +27,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DialogsList(props) {
-  const { loading, profile, users, dialogs, getDialogs, selectedDialog, setSelectedDialog } = props;
+  const { loading, profile, users, localDialogs, selectedDialog, setSelectedDialog } = props;
   const classes = useStyles();
-
-  React.useEffect(() => {
-    let socket = socketIOClient(process.env.REACT_APP_API_URL);
-    socket.on('messages', () => getDialogs());
-  }, []);
 
   // Вернуть имя участника, id которого не совпадает с id авторизованного пользователя 
   const getParticipantName = (participants) => {
@@ -55,7 +49,7 @@ export default function DialogsList(props) {
 
   function setDialogsItems() {
     return (
-      (loading ? Array.from(bootArray) : dialogs).map((item, index) => {
+      (loading ? Array.from(bootArray) : localDialogs).map((item, index) => {
         if (item) {
           return (
             <React.Fragment key={index}>
@@ -86,7 +80,7 @@ export default function DialogsList(props) {
                   <DoneAllIcon style={{ marginTop: '2px' }} fontSize="inherit" />
                 </div>
               </ListItem>
-              {index + 1 < dialogs.length && <Divider variant="inset" component="li" />}
+              {index + 1 < localDialogs.length && <Divider variant="inset" component="li" />}
             </React.Fragment>
           );
         } else {

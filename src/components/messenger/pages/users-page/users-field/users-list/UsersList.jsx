@@ -1,5 +1,4 @@
 import React from 'react';
-import socketIOClient from 'socket.io-client';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Styled Components
@@ -18,19 +17,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function UsersList(props) {
-  const { loading, users, getUsers, selectedUser, setSelectedUser } = props;
+  const { loading, localUsers, selectedUser, setSelectedUser } = props;
   const classes = useStyles();
-
-  React.useEffect(() => {
-    const socket = socketIOClient(process.env.REACT_APP_API_URL);
-    socket.on('users', () => getUsers());
-  }, []);
 
   const bootArray = new Array(10);
 
   function setDialogsItems() {
     return (
-      (loading ? Array.from(bootArray) : users).map((item, index) => {
+      (loading ? Array.from(bootArray) : localUsers).map((item, index) => {
         if (item) {
           return (
             <React.Fragment key={index}>
@@ -57,7 +51,7 @@ export default function UsersList(props) {
                   secondaryTypographyProps={{ noWrap: true }}
                 />
               </ListItem>
-              {index + 1 < users.length && <Divider variant="inset" component="li" />}
+              {index + 1 < localUsers.length && <Divider variant="inset" component="li" />}
             </React.Fragment>
           );
         } else {

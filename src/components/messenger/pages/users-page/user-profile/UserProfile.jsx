@@ -63,10 +63,24 @@ export default function UserProfile(props) {
     setMessage(event.target.value)
   };
 
-  const handleSubmit = (event) => {
+  // Формирование тела запроса
+  const setPostMessage = (event) => {
     event.preventDefault();
     postMessage({ to: selectedUser._id, body: message });
     setMessage('');
+  };
+
+  // Отправка сообщения по клику
+  const handleButtonSubmit = (event) => {
+    setPostMessage(event);
+  };
+
+  // Отправка сообщения по нажатию Enter
+  const handleInputSubmit = (event) => {
+    if (event.key === 'Enter') {
+      setPostMessage(event);
+      handleClose();
+    };
   };
 
   const setUserProfile = () => {
@@ -94,7 +108,7 @@ export default function UserProfile(props) {
         <div className={classes.userProfileSection}>
           <Button variant="contained" color="primary" onClick={handleOpen}>Написать сообщение</Button>
           <Dialog open={open} onClose={handleClose}>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleButtonSubmit}>
               <DialogTitle>Отправте пользователю сообщение</DialogTitle>
               <DialogContent className={classes.userProfileSection}>
                 <FormControl>
@@ -104,6 +118,7 @@ export default function UserProfile(props) {
                     multiline
                     value={message}
                     onChange={handleInput}
+                    onKeyDown={handleInputSubmit}
                   />
                 </FormControl>
               </DialogContent>

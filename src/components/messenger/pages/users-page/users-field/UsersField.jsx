@@ -1,11 +1,10 @@
 import React from 'react';
+import socketIOClient from 'socket.io-client';
 import { customUseWidth } from '../../../customUseWidth';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Styled Components
-import { IconButton, Typography } from '@material-ui/core';
-// Icons
-import CreateIcon from '@material-ui/icons/Create';
+import Typography from '@material-ui/core/Typography';
 // Components
 import Top from '../../../top/Top';
 import UsersList from './users-list/UsersList';
@@ -25,17 +24,16 @@ const useStyles = makeStyles(theme => ({
       '-webkit-box-shadow': 'inset 0 0 6px rgba(0, 0, 0, 0.0)',
       backgroundColor: 'rgba(0, 0, 0, 0.1)',
     },
-  },
-  usersTitle: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
+  }
 }));
 
 export default function UsersField(props) {
+  debugger
   const classes = useStyles();
   const usersRef = React.useRef();
   const [usersWidth, setUsersWidth] = React.useState(null);
+  const [localUsers, setLocalUsers] = React.useState(null);
+  const [searchValue, setSearchValue] = React.useState('');
 
   React.useEffect(() => {
     customUseWidth(usersRef, (value) => {
@@ -43,18 +41,50 @@ export default function UsersField(props) {
     });
   }, []);
 
+  React.useEffect(() => {
+    setLocalUsers(props.users);
+  }, [props.users]);
+
+  React.useEffect(() => {
+    const socket = socketIOClient(process.env.REACT_APP_API_URL);
+    socket.on('users', () => props.getUsers());
+  }, []);
+
+  React.useEffect(() => {
+    if (localUsers) {
+      const allUsers = props.users;
+
+      // Ищем совпадения по значению поиска
+      const filteredUsers = allUsers.filter((item) => {
+        const firstName = item.firstName;
+        const lastName = item.lastName;
+        const variant1 = `${firstName} ${lastName}`;
+        const variant2 = `${lastName} ${firstName}`;
+        const regExp = new RegExp(searchValue, 'i');
+        return regExp.test(variant1) || regExp.test(variant2);
+      });
+
+      setLocalUsers(filteredUsers);
+    };
+  }, [searchValue]);
+
   return (
     <div ref={usersRef}>
       <div style={{ width: usersWidth }} className={classes.usersContainer}>
         <Top />
-        <div className={classes.usersTitle}>
-          <Typography variant="h4">Пользователи</Typography>
-          <IconButton>
-            <CreateIcon />
-          </IconButton>
-        </div>
-        <Search />
-        < UsersList {...props} />
+        <Typography variant="h4">Пользователи</Typography>
+        <Search
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+        />
+        {(props.loading || (localUsers && localUsers.length > 0)) && (
+          < UsersList
+            selectedUser={props.selectedUser}
+            setSelectedUser={props.setSelectedUser}
+            loading={props.loading}
+            localUsers={localUsers}
+          />
+        )}
       </div>
     </div>
   );

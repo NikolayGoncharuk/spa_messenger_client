@@ -1,41 +1,44 @@
 import React from 'react';
+// Styles
 import { makeStyles } from '@material-ui/core/styles';
-import { Divider, Paper, InputBase, IconButton } from '@material-ui/core';
+// Styled Components
+import { Paper, InputAdornment, InputBase } from '@material-ui/core';
+// Icons
 import SearchIcon from '@material-ui/icons/Search';
-import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles(theme => ({
   searchWrapper: {
     position: 'sticky',
     top: 0,
-    padding: theme.spacing(1, 2),
+    padding: theme.spacing(2, 2),
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
     display: 'flex',
     zIndex: theme.zIndex.appBar,
   },
-  searchDivider: {
-    height: 28,
-    margin: theme.spacing('auto', '4px'),
-  },
 }));
 
-export default function Search() {
+export default function Search(props) {
   const classes = useStyles();
 
+  const handleInput = (event) => {
+    props.setSearchValue(event.target.value);
+  };
+
   return (
-    <Paper component="form" className={classes.searchWrapper}>
+    <Paper className={classes.searchWrapper}>
       <InputBase
         placeholder="Поиск..."
+        type="text"
         fullWidth
+        value={props.serachValue}
+        onChange={handleInput}
+        startAdornment={
+          <InputAdornment position="start">
+            <SearchIcon color="disabled" />
+          </InputAdornment>
+        }
       />
-      <IconButton type="submit">
-        <SearchIcon />
-      </IconButton>
-      <Divider className={classes.searchDivider} orientation="vertical" />
-      <IconButton>
-        <AddIcon />
-      </IconButton>
     </Paper>
   );
 };
