@@ -26,9 +26,7 @@ export default function SettingsField() {
   const settingsFieldRef = React.useRef();
   const [settingsFieldWidth, setSettingsFieldWidth] = React.useState(null);
 
-  useWidth(settingsFieldRef, (value) => {
-    setSettingsFieldWidth(value);
-  });
+  useWidth(settingsFieldRef, setSettingsFieldWidth);
 
   return (
     <div ref={settingsFieldRef}>

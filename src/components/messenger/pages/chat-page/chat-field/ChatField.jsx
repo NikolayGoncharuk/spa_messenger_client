@@ -22,9 +22,7 @@ export default function ChatField(props) {
   const chatFieldRef = React.useRef();
   const [chatFieldWidth, setChatFieldWidth] = React.useState(null);
 
-  useWidth(chatFieldRef, (value) => {
-    setChatFieldWidth(value);
-  });
+  useWidth(chatFieldRef, setChatFieldWidth);
 
   return (
     <div ref={chatFieldRef}>

@@ -2,9 +2,10 @@ import React from 'react';
 import socketIOClient from 'socket.io-client';
 // Hooks
 import useWidth from '../../../hooks/useWidth';
+import useSearch from '../../../hooks/useSearch';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
-// Styles Components
+// Styled Components
 import Typography from '@material-ui/core/Typography';
 // Components
 import Top from '../../../top/Top';
@@ -37,49 +38,24 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DialogsField(props) {
+  const { dialogs, profile } = props;
   const classes = useStyles();
   const dialogsRef = React.useRef();
   const [dialogsWidth, setDialogsWidth] = React.useState(null);
   const [localDialogs, setLocalDialogs] = React.useState(null);
   const [searchValue, setSearchValue] = React.useState('');
 
-  useWidth(dialogsRef, (value) => {
-    setDialogsWidth(value);
-  });
-
   React.useEffect(() => {
-    setLocalDialogs(props.dialogs);
-  }, [props.dialogs]);
+    setLocalDialogs(dialogs);
+  }, [dialogs]);
 
   React.useEffect(() => {
     let socket = socketIOClient(process.env.REACT_APP_API_URL);
     socket.on('messages', () => props.getDialogs());
   }, []);
 
-  React.useEffect(() => {
-    if (localDialogs) {
-      const allDialogs = props.dialogs;
-
-      // Убираем из массива авторизованного пользователя
-      allDialogs.forEach((item) => {
-        item.participantsObj = item.participantsObj.filter((item) => {
-          return item._id !== props.profile._id;
-        });
-      });
-
-      // Ищем совпадения по значению поиска
-      const filteredDialogs = allDialogs.filter((item) => {
-        const firstName = item.participantsObj[0].firstName;
-        const lastName = item.participantsObj[0].lastName;
-        const variant1 = `${firstName} ${lastName}`;
-        const variant2 = `${lastName} ${firstName}`;
-        const regExp = new RegExp(searchValue, 'i');
-        return regExp.test(variant1) || regExp.test(variant2);
-      });
-
-      setLocalDialogs(filteredDialogs);
-    };
-  }, [searchValue]);
+  useWidth(dialogsRef, setDialogsWidth);
+  useSearch(dialogs, profile, searchValue, setLocalDialogs);
 
   return (
     <div ref={dialogsRef}>

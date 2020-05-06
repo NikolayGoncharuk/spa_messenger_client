@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function useWidth(ref, setWidth) {
+export default function useWidth(ref, action) {
   React.useEffect(() => {
     const getRefWidth = () => {
       if (ref.current) {
@@ -11,9 +11,9 @@ export default function useWidth(ref, setWidth) {
         ));
       };
     };
-    setWidth(getRefWidth());
+    action(getRefWidth());
     window.addEventListener('resize', () => {
-      setWidth(getRefWidth());
+      action(getRefWidth());
     });
   }, []);
 };

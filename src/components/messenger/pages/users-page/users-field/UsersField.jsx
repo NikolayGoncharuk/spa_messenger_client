@@ -2,6 +2,7 @@ import React from 'react';
 import socketIOClient from 'socket.io-client';
 // Hooks
 import useWidth from '../../../hooks/useWidth';
+import useSearch from '../../../hooks/useSearch';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Styled Components
@@ -37,42 +38,24 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function UsersField(props) {
+  const { users, profile } = props;
   const classes = useStyles();
   const usersRef = React.useRef();
   const [usersWidth, setUsersWidth] = React.useState(null);
   const [localUsers, setLocalUsers] = React.useState(null);
   const [searchValue, setSearchValue] = React.useState('');
 
-  useWidth(usersRef, (value) => {
-    setUsersWidth(value);
-  });
-
   React.useEffect(() => {
-    setLocalUsers(props.users);
-  }, [props.users]);
+    setLocalUsers(users);
+  }, [users]);
 
   React.useEffect(() => {
     const socket = socketIOClient(process.env.REACT_APP_API_URL);
     socket.on('users', () => props.getUsers());
   }, []);
 
-  React.useEffect(() => {
-    if (localUsers) {
-      const allUsers = props.users;
-
-      // Ищем совпадения по значению поиска
-      const filteredUsers = allUsers.filter((item) => {
-        const firstName = item.firstName;
-        const lastName = item.lastName;
-        const variant1 = `${firstName} ${lastName}`;
-        const variant2 = `${lastName} ${firstName}`;
-        const regExp = new RegExp(searchValue, 'i');
-        return regExp.test(variant1) || regExp.test(variant2);
-      });
-
-      setLocalUsers(filteredUsers);
-    };
-  }, [searchValue]);
+  useWidth(usersRef, setUsersWidth);
+  useSearch(users, profile, searchValue, setLocalUsers);
 
   return (
     <div ref={usersRef}>

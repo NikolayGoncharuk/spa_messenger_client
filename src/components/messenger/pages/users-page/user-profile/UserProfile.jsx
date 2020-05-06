@@ -46,9 +46,7 @@ export default function UserProfile(props) {
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState('');
 
-  useWidth(userProfileRef, (value) => {
-    setUserProfileWidth(value);
-  });
+  useWidth(userProfileRef, setUserProfileWidth);
 
   const handleOpen = () => {
     setOpen(true);

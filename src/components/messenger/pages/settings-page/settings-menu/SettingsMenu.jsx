@@ -46,9 +46,7 @@ export default connect(mapStateToProps, { setDarkMode })(function SettingsMenu(p
   const settingsMenuRef = React.useRef();
   const [settingsMenuWidth, setSettingsMenuWidth] = React.useState(null);
 
-  useWidth(settingsMenuRef, (value) => {
-    setSettingsMenuWidth(value);
-  });
+  useWidth(settingsMenuRef, setSettingsMenuWidth);
 
   const handleDarkMode = () => {
     props.setDarkMode();

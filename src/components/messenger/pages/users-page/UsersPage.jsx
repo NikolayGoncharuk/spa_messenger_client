@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
+
 export default function UsersPage(props) {
   const classes = useStyles();
   const [selectedUser, setSelectedUser] = React.useState(null);
