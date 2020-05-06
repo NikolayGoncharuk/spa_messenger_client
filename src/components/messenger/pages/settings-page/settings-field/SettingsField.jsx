@@ -1,5 +1,6 @@
 import React from 'react';
-import { customUseWidth } from '../../../customUseWidth';
+// Hooks
+import useWidth from '../../../hooks/useWidth';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -25,11 +26,9 @@ export default function SettingsField() {
   const settingsFieldRef = React.useRef();
   const [settingsFieldWidth, setSettingsFieldWidth] = React.useState(null);
 
-  React.useEffect(() => {
-    customUseWidth(settingsFieldRef, (value) => {
-      setSettingsFieldWidth(value);
-    });
-  }, []);
+  useWidth(settingsFieldRef, (value) => {
+    setSettingsFieldWidth(value);
+  });
 
   return (
     <div ref={settingsFieldRef}>

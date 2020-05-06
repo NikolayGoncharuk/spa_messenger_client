@@ -15,17 +15,14 @@ const useStyles = makeStyles(theme => ({
     },
   },
   dialogs: {
-    display: 'block',
     gridArea: 'dialogs',
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
-    },
   },
   chat: {
     gridArea: 'chat',
+    display: 'block',
     marginRight: theme.spacing(6),
     [theme.breakpoints.down('sm')]: {
-      marginRight: 0,
+      display: 'none',
     },
   },
 }));

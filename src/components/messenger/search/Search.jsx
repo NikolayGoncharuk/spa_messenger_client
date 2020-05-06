@@ -7,7 +7,7 @@ import { Paper, InputAdornment, InputBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles(theme => ({
-  searchWrapper: {
+  wrapper: {
     position: 'sticky',
     top: 0,
     padding: theme.spacing(2, 2),
@@ -26,9 +26,9 @@ export default function Search(props) {
   };
 
   return (
-    <Paper className={classes.searchWrapper}>
+    <Paper className={classes.wrapper}>
       <InputBase
-        placeholder="Поиск..."
+        placeholder="Поиск по списку..."
         type="text"
         fullWidth
         value={props.serachValue}

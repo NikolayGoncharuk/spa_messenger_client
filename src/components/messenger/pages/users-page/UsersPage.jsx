@@ -15,17 +15,14 @@ const useStyles = makeStyles(theme => ({
     },
   },
   usersField: {
-    display: 'block',
     gridArea: 'usersField',
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
-    },
   },
   userProfile: {
     gridArea: 'userProfile',
+    display: 'block',
     marginRight: theme.spacing(6),
     [theme.breakpoints.down('sm')]: {
-      marginRight: 0,
+      display: 'none',
     },
   },
 }));

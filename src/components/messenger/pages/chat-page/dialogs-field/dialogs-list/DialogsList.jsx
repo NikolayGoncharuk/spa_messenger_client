@@ -12,11 +12,14 @@ import Skeleton from '@material-ui/lab/Skeleton';
 const useStyles = makeStyles(theme => ({
   root: {
     margin: theme.spacing(2, 0),
+    [theme.breakpoints.down('sm')]: {
+      margin: theme.spacing(2, 0, 0, 0),
+    },
   },
   listItemTag: {
     marginLeft: theme.spacing(1),
     display: 'grid',
-    gridTemplateColumns: 'auto',
+    gridTemplateColumns: '46px',
     gridTemplateRows: '28px 18px',
     justifyItems: 'end',
     alignItems: 'end',

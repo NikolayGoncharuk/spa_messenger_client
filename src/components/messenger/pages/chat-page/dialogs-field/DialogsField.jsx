@@ -1,6 +1,7 @@
 import React from 'react';
 import socketIOClient from 'socket.io-client';
-import { customUseWidth } from '../../../customUseWidth';
+// Hooks
+import useWidth from '../../../hooks/useWidth';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Styles Components
@@ -11,7 +12,7 @@ import DialogsList from './dialogs-list/DialogsList';
 import Search from '../../../search/Search';
 
 const useStyles = makeStyles(theme => ({
-  dialogsContainer: {
+  container: {
     position: 'fixed',
     height: '100%',
     overflow: 'auto',
@@ -24,6 +25,14 @@ const useStyles = makeStyles(theme => ({
       '-webkit-box-shadow': 'inset 0 0 6px rgba(0, 0, 0, 0.0)',
       backgroundColor: 'rgba(0, 0, 0, 0.1)',
     },
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(0),
+    },
+  },
+  title: {
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(0, 2),
+    },
   },
 }));
 
@@ -34,11 +43,9 @@ export default function DialogsField(props) {
   const [localDialogs, setLocalDialogs] = React.useState(null);
   const [searchValue, setSearchValue] = React.useState('');
 
-  React.useEffect(() => {
-    customUseWidth(dialogsRef, (value) => {
-      setDialogsWidth(value);
-    });
-  }, []);
+  useWidth(dialogsRef, (value) => {
+    setDialogsWidth(value);
+  });
 
   React.useEffect(() => {
     setLocalDialogs(props.dialogs);
@@ -46,7 +53,7 @@ export default function DialogsField(props) {
 
   React.useEffect(() => {
     let socket = socketIOClient(process.env.REACT_APP_API_URL);
-    socket.on('dialogs', () => props.getDialogs());
+    socket.on('messages', () => props.getDialogs());
   }, []);
 
   React.useEffect(() => {
@@ -76,9 +83,11 @@ export default function DialogsField(props) {
 
   return (
     <div ref={dialogsRef}>
-      <div style={{ width: dialogsWidth }} className={classes.dialogsContainer}>
-        <Top />
-        <Typography variant="h4">Мои диалоги</Typography>
+      <div style={{ width: dialogsWidth }} className={classes.container}>
+        <div className={classes.title}>
+          <Top />
+          <Typography variant="h4">Мои диалоги</Typography>
+        </div>
         <Search
           searchValue={searchValue}
           setSearchValue={setSearchValue}

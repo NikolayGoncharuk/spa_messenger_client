@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setDarkMode } from '../../../../../store/reducers/themeReducer';
-import { customUseWidth } from '../../../customUseWidth';
+// Hooks
+import useWidth from '../../../hooks/useWidth';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Styled Components
@@ -45,11 +46,9 @@ export default connect(mapStateToProps, { setDarkMode })(function SettingsMenu(p
   const settingsMenuRef = React.useRef();
   const [settingsMenuWidth, setSettingsMenuWidth] = React.useState(null);
 
-  React.useEffect(() => {
-    customUseWidth(settingsMenuRef, (value) => {
-      setSettingsMenuWidth(value);
-    });
-  }, []);
+  useWidth(settingsMenuRef, (value) => {
+    setSettingsMenuWidth(value);
+  });
 
   const handleDarkMode = () => {
     props.setDarkMode();

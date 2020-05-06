@@ -1,5 +1,6 @@
 import React from 'react';
-import { customUseWidth } from '../../../customUseWidth';
+// Hooks
+import useWidth from '../../../hooks/useWidth';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Styled Components
@@ -45,11 +46,9 @@ export default function UserProfile(props) {
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState('');
 
-  React.useEffect(() => {
-    customUseWidth(userProfileRef, (value) => {
-      setUserProfileWidth(value);
-    });
-  }, []);
+  useWidth(userProfileRef, (value) => {
+    setUserProfileWidth(value);
+  });
 
   const handleOpen = () => {
     setOpen(true);

@@ -1,5 +1,6 @@
 import React from 'react';
-import { customUseWidth } from '../../../customUseWidth';
+// Hooks
+import useWidth from '../../../hooks/useWidth';
 // Components
 import ChatHeader from './chat-header/ChatHeader';
 import MessageContainer from './message-container/MessageContainer';
@@ -8,7 +9,7 @@ import SendMessageForm from './send-message-form/SendMessageForm';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  chatContainer: {
+  container: {
     position: 'fixed',
     height: '100%',
     display: 'grid',
@@ -21,18 +22,16 @@ export default function ChatField(props) {
   const chatFieldRef = React.useRef();
   const [chatFieldWidth, setChatFieldWidth] = React.useState(null);
 
-  React.useEffect(() => {
-    customUseWidth(chatFieldRef, (value) => {
-      setChatFieldWidth(value);
-    });
-  }, []);
+  useWidth(chatFieldRef, (value) => {
+    setChatFieldWidth(value);
+  });
 
   return (
     <div ref={chatFieldRef}>
-      <div style={{ width: chatFieldWidth }} className={classes.chatContainer}>
+      <div style={{ width: chatFieldWidth }} className={classes.container}>
         <ChatHeader
           selectedDialog={props.selectedDialog}
-          profile={props.profile}А
+          profile={props.profile} А
         />
         <MessageContainer {...props} />
         <SendMessageForm

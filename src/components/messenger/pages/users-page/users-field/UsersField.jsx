@@ -1,6 +1,7 @@
 import React from 'react';
 import socketIOClient from 'socket.io-client';
-import { customUseWidth } from '../../../customUseWidth';
+// Hooks
+import useWidth from '../../../hooks/useWidth';
 // Styles
 import { makeStyles } from '@material-ui/core/styles';
 // Styled Components
@@ -11,7 +12,7 @@ import UsersList from './users-list/UsersList';
 import Search from '../../../search/Search';
 
 const useStyles = makeStyles(theme => ({
-  usersContainer: {
+  container: {
     position: 'fixed',
     height: '100%',
     overflow: 'auto',
@@ -24,22 +25,27 @@ const useStyles = makeStyles(theme => ({
       '-webkit-box-shadow': 'inset 0 0 6px rgba(0, 0, 0, 0.0)',
       backgroundColor: 'rgba(0, 0, 0, 0.1)',
     },
-  }
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(0),
+    },
+  },
+  title: {
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(0, 2),
+    },
+  },
 }));
 
 export default function UsersField(props) {
-  debugger
   const classes = useStyles();
   const usersRef = React.useRef();
   const [usersWidth, setUsersWidth] = React.useState(null);
   const [localUsers, setLocalUsers] = React.useState(null);
   const [searchValue, setSearchValue] = React.useState('');
 
-  React.useEffect(() => {
-    customUseWidth(usersRef, (value) => {
-      setUsersWidth(value);
-    });
-  }, []);
+  useWidth(usersRef, (value) => {
+    setUsersWidth(value);
+  });
 
   React.useEffect(() => {
     setLocalUsers(props.users);
@@ -70,9 +76,11 @@ export default function UsersField(props) {
 
   return (
     <div ref={usersRef}>
-      <div style={{ width: usersWidth }} className={classes.usersContainer}>
-        <Top />
-        <Typography variant="h4">Пользователи</Typography>
+      <div style={{ width: usersWidth }} className={classes.container}>
+        <div className={classes.title}>
+          <Top />
+          <Typography variant="h4">Пользователи</Typography>
+        </div>
         <Search
           searchValue={searchValue}
           setSearchValue={setSearchValue}

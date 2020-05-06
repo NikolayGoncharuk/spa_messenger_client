@@ -10,6 +10,9 @@ import StyledBadge from '../../../../../../styles/styled-components/StyledBadge'
 const useStyles = makeStyles(theme => ({
   root: {
     margin: theme.spacing(2, 0),
+    [theme.breakpoints.down('sm')]: {
+      margin: theme.spacing(2, 0, 0, 0),
+    },
   },
   skeletonWrapper: {
     width: '100%',

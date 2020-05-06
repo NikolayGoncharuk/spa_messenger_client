@@ -7,13 +7,13 @@ import { Typography } from '@material-ui/core';
 import ChatIcon from '@material-ui/icons/Chat';
 
 const useStyles = makeStyles(theme => ({
-  dialogsTop: {
+  root: {
     display: 'grid',
     gridTemplateColumns: 'auto 1fr',
     gridGap: theme.spacing(2),
     padding: theme.spacing(3, 0),
   },
-  dialogsTopLogo: {
+  logo: {
     marginTop: '4px',
   },
 }));
@@ -22,8 +22,8 @@ export default function UsersField() {
   const classes = useStyles();
 
   return (
-    <div className={classes.dialogsTop}>
-      <ChatIcon className={classes.dialogsTopLogo} />
+    <div className={classes.root}>
+      <ChatIcon className={classes.logo} />
       <div>
         <Typography variant="subtitle2">Messenger</Typography>
         <Typography color="textSecondary" variant="caption">Почти как Телега, только не Телега</Typography>
