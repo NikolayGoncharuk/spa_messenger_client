@@ -41,61 +41,72 @@ export const nav = {
   },
 };
 
-export const accountSettingsMenu = {
-  email: {
-    primary: 'goncharuk.bro@yandex.ru',
-    secondary: 'Нажмите, чтобы изменить адрес электронной почты',
-    disabled: true,
+export const settingsMenuItems = {
+  accountSettingsMenu: {
+    title: 'Аккаунт',
+    items: {
+      email: {
+        primary: 'goncharuk.bro@yandex.ru',
+        secondary: 'Нажмите, чтобы изменить адрес электронной почты',
+        disabled: true,
+      },
+      userName: {
+        primary: '@nikolay_goncharuk',
+        secondary: 'Нажмите, чтобы изменить имя пользователя',
+        disabled: true,
+      },
+      about: {
+        primary: 'О себе',
+        secondary: 'Напишите немного о себе',
+        disabled: true,
+      },
+    },
   },
-  userName: {
-    primary: '@nikolay_goncharuk',
-    secondary: 'Нажмите, чтобы изменить имя пользователя',
-    disabled: true,
-  },
-  about: {
-    primary: 'О себе',
-    secondary: 'Напишите немного о себе',
-    disabled: true,
-  },
-};
 
-export const generalSettingsMenu = {
-  sound: {
-    primary: 'Уведомления и звук',
-    icon: <NotificationsNoneIcon />,
-    disabled: true,
+  generalSettingsMenu: {
+    title: 'Основные',
+    items: {
+      sound: {
+        primary: 'Уведомления и звук',
+        icon: <NotificationsNoneIcon />,
+        disabled: true,
+      },
+      privacy: {
+        primary: 'Конфиденциальность',
+        icon: <LockOpenIcon />,
+        disabled: true,
+      },
+      chat: {
+        primary: 'Настройки чатов',
+        icon: <ChatBubbleOutlineIcon />,
+        disabled: true,
+      },
+      language: {
+        primary: 'Язык',
+        icon: <LanguageIcon />,
+        disabled: true,
+      },
+    },
   },
-  privacy: {
-    primary: 'Конфиденциальность',
-    icon: <LockOpenIcon />,
-    disabled: true,
-  },
-  chat: {
-    primary: 'Настройки чатов',
-    icon: <ChatBubbleOutlineIcon />,
-    disabled: true,
-  },
-  language: {
-    primary: 'Язык',
-    icon: <LanguageIcon />,
-    disabled: true,
-  },
-};
 
-export const helpSettingsMenu = {
-  ask: {
-    primary: 'Задать вопрос',
-    icon: <TextsmsOutlinedIcon />,
-    disabled: true,
-  },
-  questionsAbout: {
-    primary: 'Вопросы о Messenger',
-    icon: <HelpOutlineIcon />,
-    disabled: true,
-  },
-  privacyPolicy: {
-    primary: 'Политика конфиденциальности',
-    icon: <PolicyOutlinedIcon />,
-    disabled: true,
+  helpSettingsMenu: {
+    title: 'Помощь',
+    items: {
+      ask: {
+        primary: 'Задать вопрос',
+        icon: <TextsmsOutlinedIcon />,
+        disabled: true,
+      },
+      questionsAbout: {
+        primary: 'Вопросы о Messenger',
+        icon: <HelpOutlineIcon />,
+        disabled: true,
+      },
+      privacyPolicy: {
+        primary: 'Политика конфиденциальности',
+        icon: <PolicyOutlinedIcon />,
+        disabled: true,
+      },
+    },
   },
 };
